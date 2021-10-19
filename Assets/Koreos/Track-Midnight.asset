@@ -1,0 +1,152 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1223223985, guid: aa81bbec85a3f423193272a7c6154986, type: 3}
+  m_Name: Track-Midnight
+  m_EditorClassIdentifier: 
+  mEventID: Midnight
+  mEventList:
+  - mStartSample: 0
+    mEndSample: 105840
+  - mStartSample: 52920
+    mEndSample: 105840
+  - mStartSample: 105840
+    mEndSample: 105840
+  - mStartSample: 119070
+    mEndSample: 119070
+  - mStartSample: 132300
+    mEndSample: 132300
+  - mStartSample: 138915
+    mEndSample: 138915
+  - mStartSample: 145530
+    mEndSample: 145530
+  - mStartSample: 155452
+    mEndSample: 155452
+  - mStartSample: 168682
+    mEndSample: 168682
+  - mStartSample: 181912
+    mEndSample: 181912
+  - mStartSample: 191835
+    mEndSample: 211680
+  - mStartSample: 224910
+    mEndSample: 224910
+  - mStartSample: 238140
+    mEndSample: 238140
+  - mStartSample: 244755
+    mEndSample: 244755
+  - mStartSample: 251370
+    mEndSample: 251370
+  - mStartSample: 261292
+    mEndSample: 261292
+  - mStartSample: 271215
+    mEndSample: 271215
+  - mStartSample: 281137
+    mEndSample: 281137
+  - mStartSample: 287752
+    mEndSample: 317520
+  - mStartSample: 330750
+    mEndSample: 330750
+  - mStartSample: 343980
+    mEndSample: 343980
+  - mStartSample: 350595
+    mEndSample: 350595
+  - mStartSample: 357210
+    mEndSample: 357210
+  - mStartSample: 367132
+    mEndSample: 367132
+  - mStartSample: 380362
+    mEndSample: 380362
+  - mStartSample: 393592
+    mEndSample: 393592
+  - mStartSample: 403515
+    mEndSample: 423360
+  - mStartSample: 436590
+    mEndSample: 436590
+  - mStartSample: 446512
+    mEndSample: 446512
+  - mStartSample: 456435
+    mEndSample: 456435
+  - mStartSample: 472972
+    mEndSample: 472972
+  - mStartSample: 482895
+    mEndSample: 482895
+  - mStartSample: 489510
+    mEndSample: 489510
+  - mStartSample: 496125
+    mEndSample: 496125
+  - mStartSample: 502740
+    mEndSample: 529200
+  - mStartSample: 529200
+    mEndSample: 621810
+  - mStartSample: 582120
+    mEndSample: 582120
+  - mStartSample: 644962
+    mEndSample: 724342
+  - mStartSample: 687960
+    mEndSample: 687960
+  - mStartSample: 754110
+    mEndSample: 949252
+  _SerializedPayloadTypes:
+  - SonicBloom.Koreo.TextPayload
+  _ColorPayloads: []
+  _ColorPayloadIdxs: 
+  _CurvePayloads: []
+  _CurvePayloadIdxs: 
+  _FloatPayloads: []
+  _FloatPayloadIdxs: 
+  _GradientPayloads: []
+  _GradientPayloadIdxs: 
+  _IntPayloads: []
+  _IntPayloadIdxs: 
+  _SpectrumPayloads: []
+  _SpectrumPayloadIdxs: 
+  _TextPayloads:
+  - mTextVal: H,1
+  - mTextVal: H,2
+  - mTextVal: C,1
+  - mTextVal: C,2
+  - mTextVal: C,1
+  - mTextVal: C,1
+  - mTextVal: 'C,1 '
+  - mTextVal: C,2
+  - mTextVal: C,1
+  - mTextVal: C,1
+  - mTextVal: H,2
+  - mTextVal: C,2
+  - mTextVal: C,1
+  - mTextVal: C,2
+  - mTextVal: C,1
+  - mTextVal: C,2
+  - mTextVal: C,2
+  - mTextVal: C,1
+  - mTextVal: H,1
+  - mTextVal: C,2
+  - mTextVal: C,1
+  - mTextVal: C,1
+  - mTextVal: 'C,1 '
+  - mTextVal: C,2
+  - mTextVal: C,1
+  - mTextVal: C,1
+  - mTextVal: H,2
+  - mTextVal: C,2
+  - mTextVal: C,2
+  - mTextVal: C,2
+  - mTextVal: C,1
+  - mTextVal: C,2
+  - mTextVal: C,1
+  - mTextVal: C,1
+  - mTextVal: H,1
+  - mTextVal: H,2
+  - mTextVal: C,1
+  - mTextVal: H,1
+  - mTextVal: C,2
+  - mTextVal: H,2
+  _TextPayloadIdxs: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000018000000190000001a0000001b0000001c0000001d0000001e0000001f0000002000000021000000220000002300000024000000250000002600000027000000
