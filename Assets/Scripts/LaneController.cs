@@ -125,8 +125,9 @@ namespace SonicBloom.Koreo.Demos
 			// 清空队列里的已判定为miss的note
 			while (trackedNotes.Count > 0 && trackedNotes.Peek().IsNoteMissed())
 			{
-				// UI调用和处理后续需要修改
-				trackedNotes.Peek().gamingInfoDisplay.showJudgeUI("Miss");
+				// 调用UI和判定信息处理函数，TODO：看能不能封装到里面，不再外部调用
+				trackedNotes.Peek().scoreInfoUpdate(judgeClass: 0);
+				// 将note弹出队列
 				trackedNotes.Dequeue();
 			}
 
@@ -219,8 +220,21 @@ namespace SonicBloom.Koreo.Demos
 				else
 				{
 					cur_note.OnHoldBreak();
+					expireHoldNote(cur_note);
 				}
 			}
+		}
+
+		void expireHoldNote(NoteObject cur_note)
+		{
+			//将note颜色变半透明
+			cur_note.headVisuals.color = expireVisualColor(cur_note.headVisuals.color);
+			cur_note.bodyVisuals.color = expireVisualColor(cur_note.bodyVisuals.color);
+			cur_note.endVisuals.color = expireVisualColor(cur_note.endVisuals.color);
+		}
+		Color expireVisualColor(Color color)
+		{
+			return new Color(color.r, color.g, color.b, color.a / 3);
 		}
 
 		// 检查下一个note是否应该在这一帧生成

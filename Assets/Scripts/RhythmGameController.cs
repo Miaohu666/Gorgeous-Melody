@@ -22,6 +22,14 @@ namespace SonicBloom.Koreo.Demos
 		[Range(8f, 150f)]
 		public float hitWindowRangeInMS = 80;
 
+		[Tooltip("各判定等级的标准")]
+		[Range(0f, 1f)]
+		public float firstClassFactor = 0.2f;
+		[Range(0f, 1f)]
+		public float secondClassFactor = 0.5f;
+		[Range(0f, 1f)]
+		public float thirdClassFactor = 0.8f;
+
 		[Tooltip("音符下落速度")]
 		public float noteSpeed = 1f;
 
@@ -55,11 +63,42 @@ namespace SonicBloom.Koreo.Demos
 		// 音符物件池（用于存储和记录音符物件的生成和销毁，使用栈实现）
 		Stack<NoteObject> noteObjectPool = new Stack<NoteObject>();
 
+		int combo;
+		int totalScore;
+		int count_maxCombo;
+		int count_1stJudge;
+		int count_2ndJudge;
+		int count_3rdJudge;
+		int count_4thJudge;
+		int count_missedJudge;
+
 		#endregion
 		#region Properties
 
-		// Public access to the hit window.
-		public int HitWindowSampleWidth
+		// 判定窗口信息
+		public float FirstLevelWindowSampleWidth {
+            get
+            {
+				return hitWindowRangeInSamples * firstClassFactor;
+            }
+		}
+		public float SecondLevelWindowSampleWidth
+        {
+            get
+            {
+				return hitWindowRangeInSamples * secondClassFactor;
+			}
+        }
+		public float ThridLevelWindowSampleWidth
+        {
+            get
+            {
+				return hitWindowRangeInSamples * thirdClassFactor;
+			}
+        }
+
+        // Public access to the hit window.
+        public int HitWindowSampleWidth
 		{
 			get
 			{
@@ -94,6 +133,17 @@ namespace SonicBloom.Koreo.Demos
 				return playingKoreo.GetLatestSampleTime() - (int)(audioCom.pitch * leadInTimeLeft * SampleRate);
 			}
 		}
+
+		// 得分信息的获取
+		public int Combo { get => combo; set => combo = value; }
+        public int TotalScore { get => totalScore; set => totalScore = value; }
+        public int Count_maxCombo { get => count_maxCombo; set => count_maxCombo = value; }
+        public int Count_1stJudge { get => count_1stJudge; set => count_1stJudge = value; }
+        public int Count_2ndJudge { get => count_2ndJudge; set => count_2ndJudge = value; }
+        public int Count_3rdJudge { get => count_3rdJudge; set => count_3rdJudge = value; }
+        public int Count_4thJudge { get => count_4thJudge; set => count_4thJudge = value; }
+        public int Count_missedJudge { get => count_missedJudge; set => count_missedJudge = value; }
+
 
 		#endregion
 		#region Methods
@@ -235,6 +285,7 @@ namespace SonicBloom.Koreo.Demos
 			// 重置音频
 			audioCom.Stop();
 			audioCom.time = 0f;
+			
 
 			// 重置所有还在延时状态的事件  
 			// This effectively resets the Koreography and ensures that
@@ -249,10 +300,27 @@ namespace SonicBloom.Koreo.Demos
 			for (int i = 0; i < noteLanes.Count; ++i)
 			{
 				noteLanes[i].Restart();
+
 			}
+			// 重置所有UI和游戏统计信息
+			Combo = 0;
+			TotalScore = 0;
+			Count_maxCombo = 0;
+			Count_4thJudge = 0;
+			count_3rdJudge = 0;
+			Count_2ndJudge = 0;
+			Count_1stJudge = 0;
+			count_missedJudge = 0;
+
+
+			GamingInfoDisplayUI gUI = GameObject.Find("Canvas").GetComponent<GamingInfoDisplayUI>();
+			gUI.showJudgeUI("");
+			gUI.resetCombo();
+			gUI.setScoreValue(0);
 
 			// 重新开始初始化准备时间
 			InitializeLeadIn();
+
 		}
 
 		#endregion

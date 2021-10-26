@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -9,6 +10,8 @@ public class GamingInfoDisplayUI : MonoBehaviour
     public TMP_Text judgeTextUI;
     public TMP_Text comboTextUI;
     public TMP_Text comboValueUI;
+    public TMP_Text scoreTextUI;
+    public TMP_Text scoreValueUI;
 
     #endregion
 
@@ -30,6 +33,22 @@ public class GamingInfoDisplayUI : MonoBehaviour
         comboTextUI.enabled = false;
         comboValueUI.enabled = false;
     }
+
+    public void showScoreUI()
+    {
+        scoreTextUI.enabled = true;
+        scoreValueUI.enabled = true;
+    }
+    public void hideScoreUI()
+    {
+        scoreTextUI.enabled = false;
+        scoreValueUI.enabled = false;
+    }
+
+    public void setScoreValue(int score)
+    {
+        scoreValueUI.text = "" + score;
+    }
     public void startCombo()
     {
         comboTextUI.enabled = true;
@@ -50,16 +69,21 @@ public class GamingInfoDisplayUI : MonoBehaviour
     {
         comboValueUI.text = "";
     }
-    
+
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
+    }
+
+    internal static void restart()
+    {
+        throw new NotImplementedException();
     }
     #endregion
 }

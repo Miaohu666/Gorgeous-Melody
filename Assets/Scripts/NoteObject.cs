@@ -295,10 +295,12 @@ namespace SonicBloom.Koreo.Demos
 		// TODO:传入hit时延来获得不同等级的判定
 		public void OnHit()
 		{
-			gamingInfoDisplay.showJudgeUI("Good");
 			if (noteType == "C" | noteType == "F")
 			{
-				// TODO：处理UI、动画和得分情况
+				// 处理UI、动画和得分情况
+				checkNoteJudge();
+
+				
 				ReturnToPool();
 			}
 			else
@@ -314,11 +316,39 @@ namespace SonicBloom.Koreo.Demos
 			}
 		}
 
+		private void checkNoteJudge()
+		{
+			int noteTime = trackedEvent.StartSample; // 本note应当被击中时的音频采样数
+			int curTime = gameController.DelayedSampleTime; // 当前帧的音频采样数
+
+			float firstClassRange = gameController.FirstLevelWindowSampleWidth;
+			float secondClassRange = gameController.SecondLevelWindowSampleWidth;
+			float thirdClassRange = gameController.ThridLevelWindowSampleWidth;
+
+			if(Mathf.Abs(curTime - noteTime) <= firstClassRange)
+            {
+				scoreInfoUpdate(judgeClass: 1);
+			}
+			else if(Mathf.Abs(curTime - noteTime) <= secondClassRange)
+            {
+				scoreInfoUpdate(judgeClass: 2);
+			}
+			else if(Mathf.Abs(curTime - noteTime) <= thirdClassRange)
+            {
+				scoreInfoUpdate(judgeClass: 3);
+			}
+            else
+            {
+				scoreInfoUpdate(judgeClass: 4);
+			}
+
+		}
+
 		public void OnRelese()
 		{
 
-			// TODO：处理长按完成UI、动画和得分情况
-			gamingInfoDisplay.showJudgeUI("Relesed");
+			// 处理长按完成UI、动画和得分情况
+			scoreInfoUpdate(judgeClass: 1);
 
 			Debug.Log("relesed.");
 			// ReturnToPool();
@@ -329,32 +359,99 @@ namespace SonicBloom.Koreo.Demos
 
 		public void OnHoldBreak()
 		{
-			// TODO：处理长按中断UI、动画和得分情况
-			gamingInfoDisplay.showJudgeUI("Breaked");
+			// 处理长按中断UI、动画和得分情况
+			scoreInfoUpdate(judgeClass: 0);
 
 			Debug.Log("breaked.");
-			expireHoldNote();
 		}
 
 		public void OnHoldLateRelesed()
 		{
-			gamingInfoDisplay.showJudgeUI("Miss");
+			scoreInfoUpdate(judgeClass: 3);
 			// 如果有尾判，在这里处理尾判事项
 			// 如果没有尾判，略过该函数
-			Debug.Log("尾判miss了");
+			Debug.Log("尾判没按");
 		}
 
-		void expireHoldNote()
+		public void scoreInfoUpdate(int judgeClass)
 		{
-			//将note颜色变半透明
-			headVisuals.color = expireVisualColor(headVisuals.color);
-			bodyVisuals.color = expireVisualColor(headVisuals.color);
-			endVisuals.color = expireVisualColor(headVisuals.color);
+			switch (judgeClass)
+			{
+				case 0:
+					gameController.Combo = 0;
+					gameController.Count_missedJudge++;
+
+					gamingInfoDisplay.showJudgeUI("Miss");
+					gamingInfoDisplay.setScoreValue(gameController.TotalScore);
+					gamingInfoDisplay.resetCombo();
+					
+					break;
+                case 1:
+					gameController.Combo++;
+					gameController.Count_1stJudge++;
+					gameController.TotalScore += 300 * ((int)(gameController.Combo / 10) + 1);
+					updateMaxComboWhenHit();
+
+					gamingInfoDisplay.showJudgeUI("Perfect");
+					gamingInfoDisplay.setScoreValue(gameController.TotalScore);
+					updateComboDisplayWhenHit();
+
+					break;
+				case 2:
+					gameController.Combo++;
+					gameController.Count_2ndJudge++;
+					gameController.TotalScore += 200 * ((int)(gameController.Combo / 10) + 1);
+					updateMaxComboWhenHit();
+
+					gamingInfoDisplay.showJudgeUI("Great");
+					gamingInfoDisplay.setScoreValue(gameController.TotalScore);
+					updateComboDisplayWhenHit();
+
+					break;
+				case 3:
+					gameController.Combo++;
+					gameController.Count_3rdJudge++;
+					gameController.TotalScore += 100 * ((int)(gameController.Combo / 10) + 1);
+					updateMaxComboWhenHit();
+
+					gamingInfoDisplay.showJudgeUI("Good");
+					gamingInfoDisplay.setScoreValue(gameController.TotalScore);
+					updateComboDisplayWhenHit();
+					break;
+				case 4:
+					gameController.Combo++;
+					gameController.Count_4thJudge++;
+					gameController.TotalScore += 50 * ((int)(gameController.Combo / 10) + 1);
+					updateMaxComboWhenHit();
+
+					gamingInfoDisplay.showJudgeUI("Just");
+					gamingInfoDisplay.setScoreValue(gameController.TotalScore);
+					updateComboDisplayWhenHit();
+					break;
+				default:
+					Debug.LogError("不合法的判定等级: " + judgeClass + " ，请检查传参");
+					break;
+			}
 		}
-		Color expireVisualColor(Color color)
-		{
-			return new Color(color.r, color.g, color.b, color.a / 3);
+
+		void updateComboDisplayWhenHit()
+        {
+			if (gameController.Combo > 2)
+			{
+				gamingInfoDisplay.addComboValue();
+			}
+			else if (gameController.Combo == 2)
+			{
+				gamingInfoDisplay.startCombo();
+			}
 		}
+
+		void updateMaxComboWhenHit()
+        {
+			if (gameController.Count_maxCombo < gameController.Combo)
+				gameController.Count_maxCombo = gameController.Combo;
+        }
+
 
 		// 更新长按note条的视觉效果（变短）
 		void UpdateHoldingViusals()
@@ -381,6 +478,7 @@ namespace SonicBloom.Koreo.Demos
 			ReturnToPool();
 		}
 
-		#endregion
-	}
+        #endregion
+        
+    }
 }

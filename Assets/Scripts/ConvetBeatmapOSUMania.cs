@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 
@@ -10,17 +11,27 @@ namespace SonicBloom.Koreo.Demos
     {
         #region Fields
         public Koreography targetKoreo;
-        private KoreographyTrack targetTrack;
+        public KoreographyTrack targetTrack;
+        public string sourceBeatmapName;
+        private AudioClip sourceAudio;
+        private string sourceAudioFileName;
+        private int audioLeadInTime;
+        private int columnCount = 2;
+        private int SampleRate = 44100;
+
         #endregion
 
         #region Methods
         KoreographyEvent geneEvent(int sp, int ep, string ps)
         {
+            
             KoreographyEvent evt = new KoreographyEvent();
-            evt.StartSample = sp; // ËÆæÁΩÆÂºÄÂßãÈááÊ†∑Êó∂Èó¥
-            evt.EndSample = ep; // ËÆæÁΩÆÁªìÊùüÈááÊ†∑Êó∂Èó¥
-            TextPayload payload  = new TextPayload(); // new‰∏Ä‰∏™Â≠óÁ¨¶‰∏≤paylod
-            payload.TextVal = ps; // ËÆæÁΩÆpayloadÂ≠óÁ¨¶‰∏≤
+
+            // TODO£∫¥´»Î≤Œ ˝µ•ŒªŒ™∫¡√Î£¨Ω´∆‰◊™ªªŒ™≤…—˘¬ 
+            evt.StartSample = (int)(0.001f * sp * SampleRate);  // …Ë÷√ø™ º≤…—˘ ±º‰
+            evt.EndSample = (int)(0.001f * ep * SampleRate); // …Ë÷√Ω· ¯≤…—˘ ±º‰
+            TextPayload payload  = new TextPayload(); // new“ª∏ˆ◊÷∑˚¥Æpaylod
+            payload.TextVal = ps; // …Ë÷√payload◊÷∑˚¥Æ
             evt.Payload = payload;
             return evt;
         }
@@ -34,15 +45,128 @@ namespace SonicBloom.Koreo.Demos
         }
         void modifyTargetKoreo()
         {
-            
+            targetKoreo.SourceClip = sourceAudio;
+            if (targetKoreo.GetNumTracks() > 0)
+            {
+                int numOfTracks = targetKoreo.GetNumTracks();
+                for(int i = 0; i< numOfTracks; i++)
+                {
+                    targetKoreo.RemoveTrack(targetKoreo.GetTrackAtIndex(i));
+                }
+                
+            }
             targetKoreo.AddTrack(targetTrack);
+        }
+
+        /* ∑˛ŒÒ∆˜∞¸ªÚ±æµÿ∞¸ π”√£¨ø…“Ï≤Ωº”‘ÿ£¨µ´ª∫¥Ê‘⁄ƒ⁄¥Ê÷–£¨º”‘ÿµƒ“Ù∆µ◊ ‘¥“˝”√≤ªƒ‹±£¥ÊµΩKoreo÷–
+         * »Ù“™ π”√ AssetBundle£¨±ÿ–Î±£÷§∆‰‘⁄”Œœ∑÷˜≥°æ∞º”‘ÿ«∞ÕÍ≥…∂‘Koreoµƒ…Ë÷√
+        void loadAudioSource1()
+        {
+            var myLoadedAssetBundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath, "AssetBundles/OSUmania"));
+            if (myLoadedAssetBundle == null)
+            {
+                Debug.Log("Failed to load AssetBundle!");
+                return;
+            }
+            var audio = myLoadedAssetBundle.LoadAsset<AudioClip>(sourceAudioFileName);
+            sourceAudio = audio;
+        }
+        */
+
+        // ¥´Õ≥Resources.Load£¨÷ªƒ‹±æµÿ π”√£¨µ´÷ª–Ë‘À––“ª¥Œ£¨º¥ø…Ω´“—¥Ê‘⁄µƒ“Ù∆µ“˝”√º”‘ÿµΩKoreo÷–
+        void loadAudioSource()
+        {
+            sourceAudio = Resources.Load<AudioClip>(sourceAudioFileName);
+        }
+
+        void convertBeatmap(List<string> beatmapRes)
+        {
+            // œ»«Â≥˝¡Ÿ ±trackµƒÀ˘”– ¬º˛
+            targetTrack.RemoveAllEvents();
+            targetTrack.EventID = sourceAudioFileName;
+
+            List<KoreographyEvent> events = new List<KoreographyEvent>();
+            foreach (string note in beatmapRes)
+            {
+                // ∏Ò ΩæŸ¿˝£∫
+                // 0x÷·Œª÷√£¨1y÷·Œª÷√£¨2∆ º ±º‰£¨3¿‡–Õ(128 «≥§Ãı)£¨4¥Úª˜“Ù–ß£¨5Ω· ¯ ±º‰:∆‰À˚ Ù–‘
+                // 192,192,19688,5,2,0:0:0:20:D4S.wav
+                // 448,192,19688,128,2,20913:0:0:0:20:LR_NBell_F#5.wav
+                var data = note.Split(',');
+                int posX = int.Parse(data[0]);
+                int startTime = int.Parse(data[2]);
+                int endTime = startTime;
+                bool isHold = false;
+                string payload = "";
+                if (data[3].Equals("128")){
+                    isHold = true;
+                }
+                if (isHold)
+                {
+                    endTime = int.Parse(data[5].Split(':')[0]);
+                    payload += "H";
+                }
+                else
+                {
+                    payload += "C";
+                }
+                if (Mathf.Floor(posX * columnCount / 512) == 0)
+                {
+                    payload += ",1";
+                }
+                else
+                {
+                    payload += ",2";
+                }
+                // Debug.Log("s: "+startTime+ " e: "+endTime + " payload: "+payload);
+                events.Add(geneEvent(startTime, endTime, payload));
+            }
+            addEvents(targetTrack, events);
+        }
+
+        List<string> beatmapRead_local()
+        {
+            string dir = Directory.GetCurrentDirectory();
+            string beatmapFilePath = dir + "\\Assets\\OSUmaps\\" + sourceBeatmapName + ".osu";
+            Debug.Log(beatmapFilePath);
+            string line = "";
+            List<string> result = new List<string>();
+            FileStream fs = new FileStream(beatmapFilePath, FileMode.Open, FileAccess.Read);
+            StreamReader sr = new StreamReader(fs);
+            while ( !(line = sr.ReadLine()).Equals("[HitObjects]") )
+            {
+                if (line.Split(':')[0].Equals("AudioFilename"))
+                {
+                    sourceAudioFileName = line.Split(':')[1].Substring(1).Split('.')[0];
+                    Debug.Log("sourceAudioFileName: " + sourceAudioFileName);
+                }
+                if (line.Split(':')[0].Equals("AudioLeadIn"))
+                {
+                    int audioLeadInTimeInMS = int.Parse(line.Split(':')[1].Substring(1));
+                    audioLeadInTime = (int)(audioLeadInTimeInMS * 0.001f);
+                    Debug.Log("audioLeadInTime: " + audioLeadInTime);
+                }
+            }
+            while ( (line = sr.ReadLine()) != null)
+            {
+                result.Add(line); 
+            }
+            return result;
         }
         void Start()
         {
 
+            List<string> beatmaplines = beatmapRead_local();
+            convertBeatmap(beatmaplines);
+
+            Debug.Log(targetKoreo.SourceClipName);
+
+            loadAudioSource();
+            modifyTargetKoreo();
+
         }
 
-        
+
         void Update()
         {
 
