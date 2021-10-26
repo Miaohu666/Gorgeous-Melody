@@ -16,7 +16,7 @@ public class GamingInfoDisplayUI : MonoBehaviour
 
     public void showJudgeUI(string judgement)
     {
-        // TODO:ÏÔÊ¾Ò»¸öÅĞ¶¨½á¹û£¬²¢ÔÚ¹Ì¶¨Ê±¼äºóÏûÊ§ »òÔÚÏÂÒ»¸öÅĞ¶¨½á¹ûµ½À´Ê±±»¸²¸Ç
+        // TODO:æ˜¾ç¤ºä¸€ä¸ªåˆ¤å®šç»“æœï¼Œå¹¶åœ¨å›ºå®šæ—¶é—´åæ¶ˆå¤± æˆ–åœ¨ä¸‹ä¸€ä¸ªåˆ¤å®šç»“æœåˆ°æ¥æ—¶è¢«è¦†ç›–
         judgeTextUI.text = judgement;
     }
 
@@ -33,7 +33,7 @@ public class GamingInfoDisplayUI : MonoBehaviour
     public void startCombo()
     {
         comboTextUI.enabled = true;
-        // combo´Ó2¿ªÊ¼¼ÆËã
+        // comboä»2å¼€å§‹è®¡ç®—
         comboValueUI.text = "2";
         comboValueUI.enabled = true;
     }

@@ -17,10 +17,10 @@ namespace SonicBloom.Koreo.Demos
         KoreographyEvent geneEvent(int sp, int ep, string ps)
         {
             KoreographyEvent evt = new KoreographyEvent();
-            evt.StartSample = sp; // ÉèÖÃ¿ªÊ¼²ÉÑùÊ±¼ä
-            evt.EndSample = ep; // ÉèÖÃ½áÊø²ÉÑùÊ±¼ä
-            TextPayload payload  = new TextPayload(); // newÒ»¸ö×Ö·û´®paylod
-            payload.TextVal = ps; // ÉèÖÃpayload×Ö·û´®
+            evt.StartSample = sp; // è®¾ç½®å¼€å§‹é‡‡æ ·æ—¶é—´
+            evt.EndSample = ep; // è®¾ç½®ç»“æŸé‡‡æ ·æ—¶é—´
+            TextPayload payload  = new TextPayload(); // newä¸€ä¸ªå­—ç¬¦ä¸²paylod
+            payload.TextVal = ps; // è®¾ç½®payloadå­—ç¬¦ä¸²
             evt.Payload = payload;
             return evt;
         }
