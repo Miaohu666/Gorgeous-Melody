@@ -164,6 +164,14 @@ namespace SonicBloom.Koreo.Demos
             loadAudioSource();
             modifyTargetKoreo();
 
+            LoadKoreoInfo onLoadObject = GameObject.FindObjectOfType<LoadKoreoInfo>();
+
+            onLoadObject.onLoadKoreo = targetKoreo;
+            onLoadObject.onLoadTrack = targetTrack;
+            onLoadObject.eventID = targetTrack.EventID;
+            onLoadObject.leadInTime = audioLeadInTime;
+            onLoadObject.beatmapNameUI.text = sourceBeatmapName;
+
         }
 
 

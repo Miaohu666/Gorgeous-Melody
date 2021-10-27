@@ -5,6 +5,7 @@
 
 using UnityEngine;
 using System.Collections.Generic;
+using SonicBloom.Koreo.Players;
 
 namespace SonicBloom.Koreo.Demos
 {
@@ -145,10 +146,19 @@ namespace SonicBloom.Koreo.Demos
         public int Count_missedJudge { get => count_missedJudge; set => count_missedJudge = value; }
 
 
-		#endregion
-		#region Methods
+        #endregion
+        #region Methods
+        void Awake()
+        {
+			// 通过上一场景传入的koreo参数，初始化游戏场景的koreo配置
+			LoadKoreoInfo onLoadObject = GameObject.FindObjectOfType<LoadKoreoInfo>();
+			SimpleMusicPlayer musicPlayer = audioCom.GetComponent<SimpleMusicPlayer>();
+			eventID = onLoadObject.eventID;
+			leadInTime = onLoadObject.leadInTime;
+			musicPlayer.LoadSong(onLoadObject.onLoadKoreo, autoPlay: false);
 
-		void Start()
+        }
+        void Start()
 		{
 			// 初始化准备时间
 			InitializeLeadIn();

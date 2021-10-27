@@ -1,7 +1,5 @@
 fileFormatVersion: 2
 guid: ffdf990f540f9fd469a27dc0ce8e3b1c
-labels:
-- Audio
 AudioImporter:
   externalObjects: {}
   serializedVersion: 6
@@ -20,5 +18,5 @@ AudioImporter:
   ambisonic: 0
   3D: 1
   userData: 
-  assetBundleName: osumania
+  assetBundleName: 
   assetBundleVariant: 
