@@ -220,7 +220,8 @@ namespace SonicBloom.Koreo.Demos
 				else
 				{
 					cur_note.OnHoldBreak();
-					expireHoldNote(cur_note);
+					// TODO：存在bug，其他note也会受影响变为半透明，暂时禁用
+					//expireHoldNote(cur_note);
 				}
 			}
 		}

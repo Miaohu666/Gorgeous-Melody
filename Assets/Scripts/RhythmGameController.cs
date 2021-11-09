@@ -154,7 +154,7 @@ namespace SonicBloom.Koreo.Demos
 			LoadKoreoInfo onLoadObject = GameObject.FindObjectOfType<LoadKoreoInfo>();
 			SimpleMusicPlayer musicPlayer = audioCom.GetComponent<SimpleMusicPlayer>();
 			eventID = onLoadObject.eventID;
-			leadInTime = onLoadObject.leadInTime;
+			leadInTime = onLoadObject.leadInTime + 4.0f;
 			musicPlayer.LoadSong(onLoadObject.onLoadKoreo, autoPlay: false);
 
         }

@@ -16,7 +16,7 @@ namespace SonicBloom.Koreo.Demos
         private AudioClip sourceAudio;
         private string sourceAudioFileName;
         private int audioLeadInTime;
-        private int columnCount = 2;
+        public int columnCount = 4;
         private int SampleRate = 44100;
 
         #endregion
@@ -40,12 +40,19 @@ namespace SonicBloom.Koreo.Demos
         {
             foreach(KoreographyEvent evt in events)
             {
-                track.AddEvent(evt);
+                bool isAdded = track.AddEvent(evt);
+                while (!isAdded)
+                {
+                    evt.StartSample += 1;
+                    evt.EndSample += 1;
+                    isAdded = track.AddEvent(evt);
+                }
             }
         }
         void modifyTargetKoreo()
         {
             targetKoreo.SourceClip = sourceAudio;
+            targetKoreo.SampleRate = SampleRate;
             if (targetKoreo.GetNumTracks() > 0)
             {
                 int numOfTracks = targetKoreo.GetNumTracks();
@@ -77,6 +84,8 @@ namespace SonicBloom.Koreo.Demos
         void loadAudioSource()
         {
             sourceAudio = Resources.Load<AudioClip>(sourceAudioFileName);
+            // 获得音频的采样率
+            SampleRate =  sourceAudio.frequency;
         }
 
         void convertBeatmap(List<string> beatmapRes)
@@ -110,14 +119,9 @@ namespace SonicBloom.Koreo.Demos
                 {
                     payload += "C";
                 }
-                if (Mathf.Floor(posX * columnCount / 512) == 0)
-                {
-                    payload += ",1";
-                }
-                else
-                {
-                    payload += ",2";
-                }
+                int trackNo = Mathf.FloorToInt(posX * columnCount / 512) + 1;
+                payload += ("," + trackNo.ToString());
+
                 // Debug.Log("s: "+startTime+ " e: "+endTime + " payload: "+payload);
                 events.Add(geneEvent(startTime, endTime, payload));
             }
@@ -157,11 +161,14 @@ namespace SonicBloom.Koreo.Demos
         {
 
             List<string> beatmaplines = beatmapRead_local();
+            // 因为加载音频时获取了采样率，所以必须先加载音频
+            loadAudioSource();
+            
             convertBeatmap(beatmaplines);
 
             Debug.Log(targetKoreo.SourceClipName);
 
-            loadAudioSource();
+            
             modifyTargetKoreo();
 
             LoadKoreoInfo onLoadObject = GameObject.FindObjectOfType<LoadKoreoInfo>();
