@@ -1065,7 +1065,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetKoreo: {fileID: 11400000, guid: 2be0dc4cf066f164785c3b93eb77faa3, type: 2}
   targetTrack: {fileID: 11400000, guid: b9b5ff79876082b4da799e8a50c2788d, type: 2}
-  sourceBeatmapName: xi - ANiMA (Kawawa) [Easy]
+  sourceBeatmapName: Who-ya Extended - VIVID VICE (TV Size) ([RT]Alleyne) [Easy]
+  columnCount: 4
 --- !u!4 &1803158616
 Transform:
   m_ObjectHideFlags: 0
