@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
+/* LoadKoreoInfo： 从转换脚本中获得Koreo等资源引用，用于跨场景传参
+ * 层级：TS
+ */
 namespace SonicBloom.Koreo.Demos
 {
     public class LoadKoreoInfo : MonoBehaviour
@@ -14,6 +17,7 @@ namespace SonicBloom.Koreo.Demos
         public float leadInTime;
 
         public TMP_Text beatmapNameUI;
+
 
         // Start is called before the first frame update
         void Start()
@@ -32,5 +36,6 @@ namespace SonicBloom.Koreo.Demos
         {
             SceneManager.LoadScene(scene);
         }
+
     }
 }
