@@ -22,7 +22,8 @@ namespace Assets.Scripts
         // 要转换到的Koreo和Track容器
         public Koreography targetKoreo;
         public KoreographyTrack targetTrack;
-
+        // 默认eventID
+        public static string DEFAULT_EventID = "audio";
         // 存储铺面文件和音频的文件夹路径（Windows标准路径）
         public string sourceFilePath;
         // 铺面文件的名称（不带后缀名osu）
@@ -152,7 +153,8 @@ namespace Assets.Scripts
         {
             // 先清除临时track的所有事件
             targetTrack.RemoveAllEvents();
-            targetTrack.EventID = sourceAudioFileName;
+
+            targetTrack.EventID = DEFAULT_EventID;
 
             List<KoreographyEvent> events = new List<KoreographyEvent>();
             foreach (string note in beatmapRes)
@@ -220,13 +222,13 @@ namespace Assets.Scripts
                 if (line.Split(':')[0].Equals("AudioFilename"))
                 {
                     sourceAudioFileName = line.Split(':')[1].Substring(1).Split('.')[0];
-                    Debug.Log("sourceAudioFileName: " + sourceAudioFileName);
+                    // Debug.Log("sourceAudioFileName: " + sourceAudioFileName);
                 }
                 if (line.Split(':')[0].Equals("AudioLeadIn"))
                 {
                     int audioLeadInTimeInMS = int.Parse(line.Split(':')[1].Substring(1));
                     audioLeadInTime = (int)(audioLeadInTimeInMS * 0.001f);
-                    Debug.Log("audioLeadInTime: " + audioLeadInTime);
+                    // Debug.Log("audioLeadInTime: " + audioLeadInTime);
                 }
             }
             // 读取"[HitObjects]"数据块中的每一行，将其分割加入字符串列表
