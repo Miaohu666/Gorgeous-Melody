@@ -6,6 +6,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using SonicBloom.Koreo.Players;
+using UnityEngine.SceneManagement;
 
 namespace SonicBloom.Koreo.Demos
 {
@@ -78,28 +79,28 @@ namespace SonicBloom.Koreo.Demos
 
 		// 判定窗口信息
 		public float FirstLevelWindowSampleWidth {
-            get
-            {
+			get
+			{
 				return hitWindowRangeInSamples * firstClassFactor;
-            }
+			}
 		}
 		public float SecondLevelWindowSampleWidth
-        {
-            get
-            {
+		{
+			get
+			{
 				return hitWindowRangeInSamples * secondClassFactor;
 			}
-        }
+		}
 		public float ThridLevelWindowSampleWidth
-        {
-            get
-            {
+		{
+			get
+			{
 				return hitWindowRangeInSamples * thirdClassFactor;
 			}
-        }
+		}
 
-        // Public access to the hit window.
-        public int HitWindowSampleWidth
+		// Public access to the hit window.
+		public int HitWindowSampleWidth
 		{
 			get
 			{
@@ -137,19 +138,19 @@ namespace SonicBloom.Koreo.Demos
 
 		// 得分信息的获取
 		public int Combo { get => combo; set => combo = value; }
-        public int TotalScore { get => totalScore; set => totalScore = value; }
-        public int Count_maxCombo { get => count_maxCombo; set => count_maxCombo = value; }
-        public int Count_1stJudge { get => count_1stJudge; set => count_1stJudge = value; }
-        public int Count_2ndJudge { get => count_2ndJudge; set => count_2ndJudge = value; }
-        public int Count_3rdJudge { get => count_3rdJudge; set => count_3rdJudge = value; }
-        public int Count_4thJudge { get => count_4thJudge; set => count_4thJudge = value; }
-        public int Count_missedJudge { get => count_missedJudge; set => count_missedJudge = value; }
+		public int TotalScore { get => totalScore; set => totalScore = value; }
+		public int Count_maxCombo { get => count_maxCombo; set => count_maxCombo = value; }
+		public int Count_1stJudge { get => count_1stJudge; set => count_1stJudge = value; }
+		public int Count_2ndJudge { get => count_2ndJudge; set => count_2ndJudge = value; }
+		public int Count_3rdJudge { get => count_3rdJudge; set => count_3rdJudge = value; }
+		public int Count_4thJudge { get => count_4thJudge; set => count_4thJudge = value; }
+		public int Count_missedJudge { get => count_missedJudge; set => count_missedJudge = value; }
 
 
-        #endregion
-        #region Methods
-        void Awake()
-        {
+		#endregion
+		#region Methods
+		void Awake()
+		{
 			// 通过上一场景传入的koreo参数，初始化游戏场景的koreo配置
 			LoadKoreoInfo onLoadObject = GameObject.FindObjectOfType<LoadKoreoInfo>();
 			SimpleMusicPlayer musicPlayer = audioCom.GetComponent<SimpleMusicPlayer>();
@@ -157,8 +158,8 @@ namespace SonicBloom.Koreo.Demos
 			leadInTime = onLoadObject.leadInTime + 4.0f;
 			musicPlayer.LoadSong(onLoadObject.onLoadKoreo, autoPlay: false);
 
-        }
-        void Start()
+		}
+		void Start()
 		{
 			// 初始化准备时间
 			InitializeLeadIn();
@@ -331,6 +332,13 @@ namespace SonicBloom.Koreo.Demos
 			// 重新开始初始化准备时间
 			InitializeLeadIn();
 
+		}
+		public void BackToScene(string scene)
+		{
+			Destroy(FindObjectOfType<LoadKoreoInfo>().gameObject);
+			audioCom.Stop();
+			audioCom.time = 0f;
+			SceneManager.LoadScene(scene);
 		}
 
 		#endregion

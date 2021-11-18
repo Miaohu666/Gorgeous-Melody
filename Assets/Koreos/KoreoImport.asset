@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: -2076007791, guid: aa81bbec85a3f423193272a7c6154986, type: 3}
   m_Name: KoreoImport
   m_EditorClassIdentifier: 
-  mSourceClip: {fileID: 8300000, guid: 3db180b9e6409974a97ca9f1a0b6a855, type: 3}
+  mSourceClip: {fileID: 0}
   mAudioFilePath: 
   mSampleRate: 44100
   mIgnoreLatencyOffset: 0
