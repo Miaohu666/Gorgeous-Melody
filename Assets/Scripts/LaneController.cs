@@ -49,7 +49,7 @@ namespace SonicBloom.Koreo.Demos
 		float scaleHold = 1.2f;
 
 		// 记录当前轨道正在打击的note，如无则赋值为null（必须为全局变量）
-		NoteObject hitNote = null;
+		public NoteObject curHitNote = null;
 
 		#endregion
 		#region Properties
@@ -108,10 +108,20 @@ namespace SonicBloom.Koreo.Demos
 			// 获得相机的边界
 			// Get the vertical bounds of the camera.  Offset by a bit to allow for offscreen spawning/removal.
 			float cameraOffsetZ = -Camera.main.transform.position.z;
-			// 将相机边界上下加上一点，作为出生点和销毁点，以便出生点和销毁点不在玩家的视野范围内
-			// 下边界延长一点，以防过长的hold提前销毁
-			spawnY = Camera.main.ViewportToWorldPoint(new Vector3(0f, 1f, cameraOffsetZ)).y + 1f;
-			despawnY = Camera.main.ViewportToWorldPoint(new Vector3(0f, 0f, cameraOffsetZ)).y - 10f;
+            if (GameObject.FindWithTag("GameController").GetComponent<RhythmGameController>().isSettingMode)
+            {
+				// 在设置中预览note落下，则出生点在可视范围内
+				spawnY = Camera.main.ViewportToWorldPoint(new Vector3(0f, 1f, cameraOffsetZ)).y - 1f;
+				despawnY = Camera.main.ViewportToWorldPoint(new Vector3(0f, 0f, cameraOffsetZ)).y - 1f;
+			}
+            else
+            {
+				// 将相机边界上下加上一点，作为出生点和销毁点，以便出生点和销毁点不在玩家的视野范围内
+				// 下边界延长一点，以防过长的hold提前销毁
+				spawnY = Camera.main.ViewportToWorldPoint(new Vector3(0f, 1f, cameraOffsetZ)).y + 1f;
+				despawnY = Camera.main.ViewportToWorldPoint(new Vector3(0f, 0f, cameraOffsetZ)).y - 10f;
+			}
+
 
 			// 更新轨道的标志色
 			targetVisuals.color = color;
@@ -125,8 +135,11 @@ namespace SonicBloom.Koreo.Demos
 			// 清空队列里的已判定为miss的note
 			while (trackedNotes.Count > 0 && trackedNotes.Peek().IsNoteMissed())
 			{
-				// 调用UI和判定信息处理函数，TODO：看能不能封装到里面，不再外部调用
-				trackedNotes.Peek().scoreInfoUpdate(judgeClass: 0);
+				if (!gameController.isSettingMode)
+				{
+					// 调用UI和判定信息处理函数，TODO：看能不能封装到里面，不再外部调用
+					trackedNotes.Peek().scoreInfoUpdate(judgeClass: 0);
+				}
 				// 将note弹出队列
 				trackedNotes.Dequeue();
 			}
@@ -142,10 +155,12 @@ namespace SonicBloom.Koreo.Demos
 			//  what is found here.  Touch input does not have a built-in concept of "Held", so it is not
 			//  currently supported.
 
+			if (gameController.isSettingMode)
+				return;
 
 			if (Input.GetKeyDown(keyboardButton))
 			{
-				hitNote = CheckNoteHit(); // 判断是否打击到note
+				CheckNoteHit(); // 判断是否打击到note
 				SetScalePress(); // 触发判定线缩放的视觉效果（按下）
 			}
 			else if (Input.GetKey(keyboardButton))
@@ -155,8 +170,10 @@ namespace SonicBloom.Koreo.Demos
 			}
 			else if (Input.GetKeyUp(keyboardButton))
 			{
-				if(hitNote != null)
-					CheckNoteRelese(hitNote); // 判断玩家是否松开长按note 
+				if (curHitNote != null)
+				{
+					CheckNoteRelese(curHitNote); // 判断玩家是否松开长按note 
+				}
 				SetScaleDefault(); // 当玩家松开按钮时，判定线效果重置为默认
 			}
 		}
@@ -184,6 +201,7 @@ namespace SonicBloom.Koreo.Demos
 		}
 
 		// 检查该判定线是否击中note，如果是，将被击中的note从游戏场景和trackedNotes队列中移除。
+		// 该函数返回值暂时不使用
 		public NoteObject CheckNoteHit()
 		{
 			// 永远只检查队列中的第一个note是否被击中，所以记得在update一开始一定要清除missed的note
@@ -191,9 +209,21 @@ namespace SonicBloom.Koreo.Demos
 			{
 				NoteObject hitNote = trackedNotes.Dequeue();
 
+				// 【DEBUG】
+				/*if (hitNote != null)
+				{
+					Debug.Log(string.Format("[key {0} Down]:{1} in track{2}",keyboardButton,
+						hitNote.getStartSample(),hitNote.getPayloadTrack()));
+				}*/
+				// 更新当前轨道的hitnote
+				// 问题：不知道为什么会记录到其他轨道的note……
+				// 现在采用在使用curHitNote的函数中二次检查来避免出现致命bug
+				this.curHitNote = hitNote;
+
 				hitNote.OnHit();
 				return hitNote;
 			}
+			this.curHitNote = null;
 			return null;
 		}
 
@@ -206,7 +236,8 @@ namespace SonicBloom.Koreo.Demos
 
 		public void CheckNoteRelese(NoteObject cur_note)
 		{
-			if(cur_note.getNoteType() == "H")
+			// 确保判断的是正在长按的note，而不被missed note和其他note影响
+			if(cur_note.getNoteType() == "H" && cur_note.IsOnHolding)
 			{
 				if (cur_note.IsNoteReleseable())
 				{
@@ -220,8 +251,9 @@ namespace SonicBloom.Koreo.Demos
 				else
 				{
 					cur_note.OnHoldBreak();
-					// TODO：存在bug，其他note也会受影响变为半透明，暂时禁用
-					//expireHoldNote(cur_note);
+					// 将break的note变为半透明
+					expireHoldNote(cur_note);
+					
 				}
 			}
 		}
