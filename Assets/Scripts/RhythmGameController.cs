@@ -16,6 +16,9 @@ namespace SonicBloom.Koreo.Demos
 	{
 		#region Fields 
 
+		[Tooltip("标记该播放是否在设置菜单模式下，默认否")]
+		public bool isSettingMode = false;
+
 		[Tooltip("要生成音符的事件对应的Event ID")]
 		[EventID]
 		public string eventID;
@@ -151,16 +154,25 @@ namespace SonicBloom.Koreo.Demos
 		#region Methods
 		void Awake()
 		{
-			// 通过上一场景传入的koreo参数，初始化游戏场景的koreo配置
-			LoadKoreoInfo onLoadObject = GameObject.FindObjectOfType<LoadKoreoInfo>();
-			SimpleMusicPlayer musicPlayer = audioCom.GetComponent<SimpleMusicPlayer>();
-			eventID = onLoadObject.eventID;
-			leadInTime = onLoadObject.leadInTime + 4.0f;
-			musicPlayer.LoadSong(onLoadObject.onLoadKoreo, autoPlay: false);
+			if (!isSettingMode)
+			{
+				// 通过上一场景传入的koreo参数，初始化游戏场景的koreo配置
+				LoadKoreoInfo onLoadObject = GameObject.FindObjectOfType<LoadKoreoInfo>();
+				SimpleMusicPlayer musicPlayer = audioCom.GetComponent<SimpleMusicPlayer>();
+				eventID = onLoadObject.eventID;
+				leadInTime = onLoadObject.leadInTime + 4.0f;
+				musicPlayer.LoadSong(onLoadObject.onLoadKoreo, autoPlay: false);
+			}
+			
 
 		}
 		void Start()
 		{
+
+			// 从持久数据中获取延迟设置值
+			// 【PS】：持久数据不能在移动平台使用
+			Koreographer.Instance.EventDelayInSeconds = PlayerPrefs.GetInt("DelayInMS", 0) * 0.001f;
+
 			// 初始化准备时间
 			InitializeLeadIn();
 
@@ -313,21 +325,25 @@ namespace SonicBloom.Koreo.Demos
 				noteLanes[i].Restart();
 
 			}
-			// 重置所有UI和游戏统计信息
-			Combo = 0;
-			TotalScore = 0;
-			Count_maxCombo = 0;
-			Count_4thJudge = 0;
-			count_3rdJudge = 0;
-			Count_2ndJudge = 0;
-			Count_1stJudge = 0;
-			count_missedJudge = 0;
+
+			if (!isSettingMode)
+			{
+				// 重置所有UI和游戏统计信息
+				Combo = 0;
+				TotalScore = 0;
+				Count_maxCombo = 0;
+				Count_4thJudge = 0;
+				count_3rdJudge = 0;
+				Count_2ndJudge = 0;
+				Count_1stJudge = 0;
+				count_missedJudge = 0;
 
 
-			GamingInfoDisplayUI gUI = GameObject.Find("Canvas").GetComponent<GamingInfoDisplayUI>();
-			gUI.showJudgeUI("");
-			gUI.resetCombo();
-			gUI.setScoreValue(0);
+				GamingInfoDisplayUI gUI = GameObject.Find("Canvas").GetComponent<GamingInfoDisplayUI>();
+				gUI.showJudgeUI("");
+				gUI.resetCombo();
+				gUI.setScoreValue(0);
+			}
 
 			// 重新开始初始化准备时间
 			InitializeLeadIn();

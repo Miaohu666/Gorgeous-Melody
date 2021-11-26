@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -2076007791, guid: aa81bbec85a3f423193272a7c6154986, type: 3}
-  m_Name: Koreo-Midnight
+  m_Name: KoreoBasicBeats
   m_EditorClassIdentifier: 
-  mSourceClip: {fileID: 8300000, guid: 0a3ad95de9b800447ba85a7244d89aa0, type: 3}
+  mSourceClip: {fileID: 8300000, guid: 011c6b4785e9fff40810b2aa7611d082, type: 3}
   mAudioFilePath: 
   mSampleRate: 44100
   mIgnoreLatencyOffset: 0
   mTempoSections:
   - sectionName: New Section
     startSample: 0
-    samplesPerBeat: 13230
+    samplesPerBeat: 29400
     beatsPerMeasure: 4
     bStartNewMeasure: 1
   mTracks:
-  - {fileID: 11400000, guid: e0b1f1f3d179e694aaa4c25647793df6, type: 2}
+  - {fileID: 11400000, guid: f3083ec97e82dd44c8d888e85e635b98, type: 2}

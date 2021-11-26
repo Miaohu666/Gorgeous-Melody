@@ -108,10 +108,20 @@ namespace SonicBloom.Koreo.Demos
 			// 获得相机的边界
 			// Get the vertical bounds of the camera.  Offset by a bit to allow for offscreen spawning/removal.
 			float cameraOffsetZ = -Camera.main.transform.position.z;
-			// 将相机边界上下加上一点，作为出生点和销毁点，以便出生点和销毁点不在玩家的视野范围内
-			// 下边界延长一点，以防过长的hold提前销毁
-			spawnY = Camera.main.ViewportToWorldPoint(new Vector3(0f, 1f, cameraOffsetZ)).y + 1f;
-			despawnY = Camera.main.ViewportToWorldPoint(new Vector3(0f, 0f, cameraOffsetZ)).y - 10f;
+            if (GameObject.FindWithTag("GameController").GetComponent<RhythmGameController>().isSettingMode)
+            {
+				// 在设置中预览note落下，则出生点在可视范围内
+				spawnY = Camera.main.ViewportToWorldPoint(new Vector3(0f, 1f, cameraOffsetZ)).y - 1f;
+				despawnY = Camera.main.ViewportToWorldPoint(new Vector3(0f, 0f, cameraOffsetZ)).y - 1f;
+			}
+            else
+            {
+				// 将相机边界上下加上一点，作为出生点和销毁点，以便出生点和销毁点不在玩家的视野范围内
+				// 下边界延长一点，以防过长的hold提前销毁
+				spawnY = Camera.main.ViewportToWorldPoint(new Vector3(0f, 1f, cameraOffsetZ)).y + 1f;
+				despawnY = Camera.main.ViewportToWorldPoint(new Vector3(0f, 0f, cameraOffsetZ)).y - 10f;
+			}
+
 
 			// 更新轨道的标志色
 			targetVisuals.color = color;
@@ -125,8 +135,11 @@ namespace SonicBloom.Koreo.Demos
 			// 清空队列里的已判定为miss的note
 			while (trackedNotes.Count > 0 && trackedNotes.Peek().IsNoteMissed())
 			{
-				// 调用UI和判定信息处理函数，TODO：看能不能封装到里面，不再外部调用
-				trackedNotes.Peek().scoreInfoUpdate(judgeClass: 0);
+				if (!gameController.isSettingMode)
+				{
+					// 调用UI和判定信息处理函数，TODO：看能不能封装到里面，不再外部调用
+					trackedNotes.Peek().scoreInfoUpdate(judgeClass: 0);
+				}
 				// 将note弹出队列
 				trackedNotes.Dequeue();
 			}
@@ -142,6 +155,8 @@ namespace SonicBloom.Koreo.Demos
 			//  what is found here.  Touch input does not have a built-in concept of "Held", so it is not
 			//  currently supported.
 
+			if (gameController.isSettingMode)
+				return;
 
 			if (Input.GetKeyDown(keyboardButton))
 			{
