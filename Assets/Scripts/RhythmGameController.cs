@@ -36,7 +36,7 @@ namespace SonicBloom.Koreo.Demos
 		public float thirdClassFactor = 0.8f;
 
 		[Tooltip("音符下落速度")]
-		public float noteSpeed = 1f;
+		public float noteSpeed = 8f;
 
 		[Tooltip("生成音符物体的原型件脚本（可以是prefab）")]
 		public NoteObject noteObjectArchetype;
@@ -169,9 +169,11 @@ namespace SonicBloom.Koreo.Demos
 		void Start()
 		{
 
-			// 从持久数据中获取延迟设置值
+			// 从持久数据中获取延迟设置值、速度值
 			// 【PS】：持久数据不能在移动平台使用
 			Koreographer.Instance.EventDelayInSeconds = PlayerPrefs.GetInt("DelayInMS", 0) * 0.001f;
+			if(!isSettingMode)
+				noteSpeed = PlayerPrefs.GetFloat("NoteSpeed", 8.0f);
 
 			// 初始化准备时间
 			InitializeLeadIn();

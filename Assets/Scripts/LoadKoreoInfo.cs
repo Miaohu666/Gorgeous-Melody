@@ -31,11 +31,15 @@ namespace SonicBloom.Koreo.Demos
 
         }
 
-        // 临时使用
+        // 临时使用(加载场景)
         public void StartPlayingScene(string scene)
         {
             SceneManager.LoadScene(scene);
         }
-
+        // 临时使用(退出游戏)
+        public void Quit()
+        {
+            Application.Quit();
+        }
     }
 }

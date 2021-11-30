@@ -245,8 +245,10 @@ namespace Assets.Scripts
         IEnumerator LoadBeatmap()
         {
             // 获得输入文件路径的URI
-            string path = new Uri(Path.Combine(sourceFilePath, sourceAudioName)).AbsoluteUri;
-            // Debug.Log("[LoadAudioFilePath]: " + path);
+            string cwd = System.Environment.CurrentDirectory;
+            Debug.Log("[Path]: " + Path.Combine(cwd, sourceFilePath, sourceAudioName));
+            string path = new Uri(Path.Combine(cwd, sourceFilePath, sourceAudioName)).AbsoluteUri;
+            Debug.Log("[LoadAudioFilePath]: " + path);
 
             // 读取osu maina铺面文件数据
             List<string> beatmaplines = BeatmapRead_local();
