@@ -13,6 +13,8 @@ public class ReadInputField : MonoBehaviour
     public TMP_InputField pathIF;
     public TMP_InputField beatmapIF;
     public TMP_InputField audioIF;
+    public Slider slider;
+    public TMP_Text readoutSpeedValue;
     public Button startButton;
 
     public void GetInputValue()
@@ -30,10 +32,17 @@ public class ReadInputField : MonoBehaviour
         startButton.interactable = true;
     }
 
+    public void OnNoteSpeedValueChanged()
+    {
+        readoutSpeedValue.text = ((int)slider.value).ToString();
+        PlayerPrefs.SetFloat("NoteSpeed", (int)slider.value);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        slider.value = PlayerPrefs.GetFloat("NoteSpeed", 8.0f);
+        readoutSpeedValue.text = slider.value.ToString();
     }
 
     // Update is called once per frame
