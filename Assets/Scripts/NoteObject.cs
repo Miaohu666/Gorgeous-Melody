@@ -215,7 +215,6 @@ namespace SonicBloom.Koreo.Demos
 				// 位置相对于判定线的移动量 = （当前帧的音频采样数 - 本note应当被击中时的音频采样数）/ spu
 				pos.y -= (gameController.DelayedSampleTime - trackedEvent.StartSample) / samplesPerUnit;
 				transform.position = pos;
-				
 			}
 		}
 
@@ -351,7 +350,9 @@ namespace SonicBloom.Koreo.Demos
 			scoreInfoUpdate(judgeClass: 1);
 
 			Debug.Log("relesed.");
+
 			// ReturnToPool();
+
 			headVisuals.enabled = false;
 			bodyVisuals.enabled = false;
 			endVisuals.enabled = false;
@@ -361,7 +362,6 @@ namespace SonicBloom.Koreo.Demos
 		{
 			// 处理长按中断UI、动画和得分情况
 			scoreInfoUpdate(judgeClass: 0);
-
 			Debug.Log("breaked.");
 		}
 
@@ -478,7 +478,16 @@ namespace SonicBloom.Koreo.Demos
 			ReturnToPool();
 		}
 
-        #endregion
-        
-    }
+		public int getStartSample()
+        {
+			return trackedEvent.StartSample;
+        }
+		public string getPayloadTrack()
+		{
+			return trackedEvent.GetTextValue().Split(',')[1];
+		}
+
+		#endregion
+
+	}
 }

@@ -23,4 +23,4 @@ MonoBehaviour:
     beatsPerMeasure: 4
     bStartNewMeasure: 1
   mTracks:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: b9b5ff79876082b4da799e8a50c2788d, type: 2}

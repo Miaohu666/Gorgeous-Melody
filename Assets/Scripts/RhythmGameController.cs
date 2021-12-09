@@ -6,6 +6,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using SonicBloom.Koreo.Players;
+using UnityEngine.SceneManagement;
 
 namespace SonicBloom.Koreo.Demos
 {
@@ -14,6 +15,9 @@ namespace SonicBloom.Koreo.Demos
 	public class RhythmGameController : MonoBehaviour
 	{
 		#region Fields 
+
+		[Tooltip("标记该播放是否在设置菜单模式下，默认否")]
+		public bool isSettingMode = false;
 
 		[Tooltip("要生成音符的事件对应的Event ID")]
 		[EventID]
@@ -32,7 +36,7 @@ namespace SonicBloom.Koreo.Demos
 		public float thirdClassFactor = 0.8f;
 
 		[Tooltip("音符下落速度")]
-		public float noteSpeed = 1f;
+		public float noteSpeed = 8f;
 
 		[Tooltip("生成音符物体的原型件脚本（可以是prefab）")]
 		public NoteObject noteObjectArchetype;
@@ -78,28 +82,28 @@ namespace SonicBloom.Koreo.Demos
 
 		// 判定窗口信息
 		public float FirstLevelWindowSampleWidth {
-            get
-            {
+			get
+			{
 				return hitWindowRangeInSamples * firstClassFactor;
-            }
+			}
 		}
 		public float SecondLevelWindowSampleWidth
-        {
-            get
-            {
+		{
+			get
+			{
 				return hitWindowRangeInSamples * secondClassFactor;
 			}
-        }
+		}
 		public float ThridLevelWindowSampleWidth
-        {
-            get
-            {
+		{
+			get
+			{
 				return hitWindowRangeInSamples * thirdClassFactor;
 			}
-        }
+		}
 
-        // Public access to the hit window.
-        public int HitWindowSampleWidth
+		// Public access to the hit window.
+		public int HitWindowSampleWidth
 		{
 			get
 			{
@@ -137,29 +141,40 @@ namespace SonicBloom.Koreo.Demos
 
 		// 得分信息的获取
 		public int Combo { get => combo; set => combo = value; }
-        public int TotalScore { get => totalScore; set => totalScore = value; }
-        public int Count_maxCombo { get => count_maxCombo; set => count_maxCombo = value; }
-        public int Count_1stJudge { get => count_1stJudge; set => count_1stJudge = value; }
-        public int Count_2ndJudge { get => count_2ndJudge; set => count_2ndJudge = value; }
-        public int Count_3rdJudge { get => count_3rdJudge; set => count_3rdJudge = value; }
-        public int Count_4thJudge { get => count_4thJudge; set => count_4thJudge = value; }
-        public int Count_missedJudge { get => count_missedJudge; set => count_missedJudge = value; }
+		public int TotalScore { get => totalScore; set => totalScore = value; }
+		public int Count_maxCombo { get => count_maxCombo; set => count_maxCombo = value; }
+		public int Count_1stJudge { get => count_1stJudge; set => count_1stJudge = value; }
+		public int Count_2ndJudge { get => count_2ndJudge; set => count_2ndJudge = value; }
+		public int Count_3rdJudge { get => count_3rdJudge; set => count_3rdJudge = value; }
+		public int Count_4thJudge { get => count_4thJudge; set => count_4thJudge = value; }
+		public int Count_missedJudge { get => count_missedJudge; set => count_missedJudge = value; }
 
 
-        #endregion
-        #region Methods
-        void Awake()
-        {
-			// 通过上一场景传入的koreo参数，初始化游戏场景的koreo配置
-			LoadKoreoInfo onLoadObject = GameObject.FindObjectOfType<LoadKoreoInfo>();
-			SimpleMusicPlayer musicPlayer = audioCom.GetComponent<SimpleMusicPlayer>();
-			eventID = onLoadObject.eventID;
-			leadInTime = onLoadObject.leadInTime;
-			musicPlayer.LoadSong(onLoadObject.onLoadKoreo, autoPlay: false);
-
-        }
-        void Start()
+		#endregion
+		#region Methods
+		void Awake()
 		{
+			if (!isSettingMode)
+			{
+				// 通过上一场景传入的koreo参数，初始化游戏场景的koreo配置
+				LoadKoreoInfo onLoadObject = GameObject.FindObjectOfType<LoadKoreoInfo>();
+				SimpleMusicPlayer musicPlayer = audioCom.GetComponent<SimpleMusicPlayer>();
+				eventID = onLoadObject.eventID;
+				leadInTime = onLoadObject.leadInTime + 4.0f;
+				musicPlayer.LoadSong(onLoadObject.onLoadKoreo, autoPlay: false);
+			}
+			
+
+		}
+		void Start()
+		{
+
+			// 从持久数据中获取延迟设置值、速度值
+			// 【PS】：持久数据不能在移动平台使用
+			Koreographer.Instance.EventDelayInSeconds = PlayerPrefs.GetInt("DelayInMS", 0) * 0.001f;
+			if(!isSettingMode)
+				noteSpeed = PlayerPrefs.GetFloat("NoteSpeed", 8.0f);
+
 			// 初始化准备时间
 			InitializeLeadIn();
 
@@ -312,25 +327,36 @@ namespace SonicBloom.Koreo.Demos
 				noteLanes[i].Restart();
 
 			}
-			// 重置所有UI和游戏统计信息
-			Combo = 0;
-			TotalScore = 0;
-			Count_maxCombo = 0;
-			Count_4thJudge = 0;
-			count_3rdJudge = 0;
-			Count_2ndJudge = 0;
-			Count_1stJudge = 0;
-			count_missedJudge = 0;
+
+			if (!isSettingMode)
+			{
+				// 重置所有UI和游戏统计信息
+				Combo = 0;
+				TotalScore = 0;
+				Count_maxCombo = 0;
+				Count_4thJudge = 0;
+				count_3rdJudge = 0;
+				Count_2ndJudge = 0;
+				Count_1stJudge = 0;
+				count_missedJudge = 0;
 
 
-			GamingInfoDisplayUI gUI = GameObject.Find("Canvas").GetComponent<GamingInfoDisplayUI>();
-			gUI.showJudgeUI("");
-			gUI.resetCombo();
-			gUI.setScoreValue(0);
+				GamingInfoDisplayUI gUI = GameObject.Find("Canvas").GetComponent<GamingInfoDisplayUI>();
+				gUI.showJudgeUI("");
+				gUI.resetCombo();
+				gUI.setScoreValue(0);
+			}
 
 			// 重新开始初始化准备时间
 			InitializeLeadIn();
 
+		}
+		public void BackToScene(string scene)
+		{
+			Destroy(FindObjectOfType<LoadKoreoInfo>().gameObject);
+			audioCom.Stop();
+			audioCom.time = 0f;
+			SceneManager.LoadScene(scene);
 		}
 
 		#endregion
