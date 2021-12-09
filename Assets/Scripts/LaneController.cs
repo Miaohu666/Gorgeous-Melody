@@ -219,7 +219,7 @@ namespace SonicBloom.Koreo.Demos
 				// 问题：不知道为什么会记录到其他轨道的note……
 				// 现在采用在使用curHitNote的函数中二次检查来避免出现致命bug
 				this.curHitNote = hitNote;
-
+				
 				hitNote.OnHit();
 				return hitNote;
 			}
@@ -263,7 +263,6 @@ namespace SonicBloom.Koreo.Demos
 			//将note颜色变半透明
 			cur_note.headVisuals.color = expireVisualColor(cur_note.headVisuals.color);
 			cur_note.bodyVisuals.color = expireVisualColor(cur_note.bodyVisuals.color);
-			cur_note.endVisuals.color = expireVisualColor(cur_note.endVisuals.color);
 		}
 		Color expireVisualColor(Color color)
 		{

@@ -254,6 +254,7 @@ namespace Assets.Scripts
             List<string> beatmaplines = BeatmapRead_local();
 
             // µÈ´ıÒôÆµ¼ÓÔØÍê±Ï
+            // yield return new WaitForSeconds(1);
             yield return StartCoroutine(GetAudioClip(path));
             // Debug.Log("[Audio Load Compeleted]");
 

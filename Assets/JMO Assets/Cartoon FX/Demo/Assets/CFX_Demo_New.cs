@@ -71,6 +71,7 @@ public class CFX_Demo_New : MonoBehaviour
 			destroyParticles();
 		}
 		
+		// 触发粒子效果
 		if(Input.GetMouseButtonDown(0))
 		{
 			RaycastHit hit = new RaycastHit();
