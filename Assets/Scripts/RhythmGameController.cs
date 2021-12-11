@@ -19,6 +19,9 @@ namespace SonicBloom.Koreo.Demos
 		[Tooltip("标记该播放是否在设置菜单模式下，默认否")]
 		public bool isSettingMode = false;
 
+		[Tooltip("音乐是否结束，此标记用于场景切换（切换至计分板）")]
+		public bool isEnd = false;
+
 		[Tooltip("要生成音符的事件对应的Event ID")]
 		[EventID]
 		public string eventID;
@@ -166,6 +169,7 @@ namespace SonicBloom.Koreo.Demos
 			
 
 		}
+
 		void Start()
 		{
 
@@ -177,6 +181,7 @@ namespace SonicBloom.Koreo.Demos
 
 			// 初始化准备时间
 			InitializeLeadIn();
+
 
 			// 初始化所有轨道
 			for (int i = 0; i < noteLanes.Count; ++i)
@@ -259,6 +264,21 @@ namespace SonicBloom.Koreo.Demos
 					timeLeftToPlay = 0f;
 				}
 			}
+
+			float rate = playingKoreo.GetLatestSampleTime() /
+				(float)(playingKoreo.SourceClip.length * playingKoreo.SampleRate);
+
+			Debug.Log(rate);
+
+			if (1 - rate <= 0.0001f && !isSettingMode)
+			{
+				isEnd = !isEnd;
+				if (!isEnd)
+				{
+					showScoreBoardScene();
+				}
+			}
+			
 		}
 
 		// Update any internal values that depend on externally accessible fields (public or Inspector-driven).
@@ -357,6 +377,17 @@ namespace SonicBloom.Koreo.Demos
 			audioCom.Stop();
 			audioCom.time = 0f;
 			SceneManager.LoadScene(scene);
+		}
+
+		public void showScoreBoardScene()
+        {
+			Score.Instance.TotalScore = TotalScore;
+			Score.Instance.maxCombo = Count_maxCombo;
+			Score.Instance._1stJudge = count_1stJudge;
+			Score.Instance._2ndJudge = Count_2ndJudge;
+			Score.Instance._3rdJudge = Count_3rdJudge;
+			Score.Instance._4thJudge = Count_4thJudge;
+			SceneManager.LoadScene("ScoreBoardScene");
 		}
 
 		#endregion
