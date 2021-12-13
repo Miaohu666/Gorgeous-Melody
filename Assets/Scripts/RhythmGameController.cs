@@ -355,10 +355,10 @@ namespace SonicBloom.Koreo.Demos
 				TotalScore = 0;
 				Count_maxCombo = 0;
 				Count_4thJudge = 0;
-				count_3rdJudge = 0;
+				Count_3rdJudge = 0;
 				Count_2ndJudge = 0;
 				Count_1stJudge = 0;
-				count_missedJudge = 0;
+				Count_missedJudge = 0;
 
 
 				GamingInfoDisplayUI gUI = GameObject.Find("Canvas").GetComponent<GamingInfoDisplayUI>();
@@ -383,10 +383,11 @@ namespace SonicBloom.Koreo.Demos
         {
 			Score.Instance.TotalScore = TotalScore;
 			Score.Instance.maxCombo = Count_maxCombo;
-			Score.Instance._1stJudge = count_1stJudge;
+			Score.Instance._1stJudge = Count_1stJudge;
 			Score.Instance._2ndJudge = Count_2ndJudge;
 			Score.Instance._3rdJudge = Count_3rdJudge;
 			Score.Instance._4thJudge = Count_4thJudge;
+			Score.Instance.missedJudge = Count_missedJudge;
 			SceneManager.LoadScene("ScoreBoardScene");
 		}
 

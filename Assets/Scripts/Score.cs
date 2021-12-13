@@ -10,6 +10,8 @@ public class Score : MonoBehaviour
 
     public int maxCombo { get; set; } = 0;
 
+    public int missedJudge { get; set; } = 0;
+
     public int _4thJudge { get; set; } = 0;
 
     public int _3rdJudge { get; set; } = 0;
