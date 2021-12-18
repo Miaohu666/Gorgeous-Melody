@@ -1529,7 +1529,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Assets\\OSUmaps\\606859 livetune feat Hatsune Miku - Tell Your World\u200B"
+  m_text: "Assets\\OSUmaps\\\u6D41\u661F\u306E\u30D1\u30EB\u30B9\u200B"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2841,8 +2841,7 @@ MonoBehaviour:
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
-  m_Text: livetune feat. Hatsune Miku - Tell Your World (-Sh1n1-) [Sh1n1's Rain feat.
-    Xinely]
+  m_Text: Leoneed x MEIKO - ryuusei no palse (jelly_master) [hs]
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 0
@@ -4327,8 +4326,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "livetune feat. Hatsune Miku - Tell Your World (-Sh1n1-) [Sh1n1's Rain
-    feat. Xinely]\u200B"
+  m_text: "Leoneed x MEIKO - ryuusei no palse (jelly_master) [hs]\u200B"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4679,7 +4677,7 @@ MonoBehaviour:
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
-  m_Text: Assets\OSUmaps\606859 livetune feat Hatsune Miku - Tell Your World
+  m_Text: "Assets\\OSUmaps\\\u6D41\u661F\u306E\u30D1\u30EB\u30B9"
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 0

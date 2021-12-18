@@ -162,6 +162,8 @@ namespace SonicBloom.Koreo.Demos
 			{
 				CheckNoteHit(); // 判断是否打击到note
 				SetScalePress(); // 触发判定线缩放的视觉效果（按下）
+				// 同时播放指定的动效
+				GameObject.Find("Hit3").SendMessage("playParticlewithPos", transform.position);
 			}
 			else if (Input.GetKey(keyboardButton))
 			{
