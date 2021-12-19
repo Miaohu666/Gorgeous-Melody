@@ -206,8 +206,8 @@ namespace Assets.Scripts
         List<string> BeatmapRead_local()
         {
             // 获得铺面文件路径
-            string beatmapFilePath = Path.Combine(sourceFilePath, sourceBeatmapName + ".osu");
-            // Debug.Log("beatmapFilePath: " + beatmapFilePath);
+            string beatmapFilePath = Path.Combine(sourceFilePath, sourceBeatmapName );//删除+ ".osu"
+            Debug.Log("beatmapFilePath: " + beatmapFilePath);
 
             string line = "";
             List<string> result = new List<string>();
@@ -275,7 +275,7 @@ namespace Assets.Scripts
                 Debug.Log("ERROR：There is INCOMPLETE path or name. Please Check Input!");
                 return;
             }
-
+            print(sourceFilePath+ sourceBeatmapName+ sourceAudioName);
             StartCoroutine(LoadBeatmap());
 
             // 将转换后的物体引用传给onLoadObject
