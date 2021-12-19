@@ -169,7 +169,6 @@ namespace SonicBloom.Koreo.Demos
 			
 
 		}
-
 		void Start()
 		{
 

@@ -116,7 +116,6 @@ namespace SonicBloom.Koreo.Demos
 			// 更新长度到全局变量
 			bodyVisualLength = bodyVisuals.transform.localScale.y;
 
-			
 			Vector3 headPos = headVisuals.transform.position;
 			headPos.y += (samplesHoldLength / samplesPerUnit);
 			// 将note尾部的标志也初始化到正确位置
@@ -298,8 +297,12 @@ namespace SonicBloom.Koreo.Demos
 			{
 				// 处理UI、动画和得分情况
 				checkNoteJudge();
+				// 演示粒子效果
+				GameObject.Find("Hit2").SendMessage("playParticlewithPos", transform.position);
+				// 播放打击音效
+				GameObject.Find("StrikeSound").SendMessage("playStrikeAudio");
+				// playParticle();
 
-				
 				ReturnToPool();
 			}
 			else

@@ -9,38 +9,38 @@ using UnityEngine.Networking;
 
 namespace Assets.Scripts
 {
-    /* ConvetBeatmapOSUMania£º ¶ÁÈ¡Ò»¸öOSUMania±ê×¼µÄoszÎÄ¼þ½âÑ¹Â·¾¶£¬
-     * ²¢¸ù¾ÝÆäÖÐÎÄ¼þÉú³ÉTrackºÍKoreo
-     * [²ã¼¶]£ºTS
-     * [ºËÐÄº¯Êý]£ºµ÷ÓÃStartConvet()ÒÔ¿ªÊ¼×ª»»¡£
-     * [±ØÒª²ÎÊý]£ºsourceFilePath¡¢sourceBeatmapName¡¢sourceAudioName
-     * ±ØÐëÔÚ×ª»»Ç°Ö¸¶¨²¢±£Ö¤¸ñÊ½ÕýÈ·¡£
+    /* ConvetBeatmapOSUManiaï¿½ï¿½ ï¿½ï¿½È¡Ò»ï¿½ï¿½OSUManiaï¿½ï¿½×¼ï¿½ï¿½oszï¿½Ä¼ï¿½ï¿½ï¿½Ñ¹Â·ï¿½ï¿½ï¿½ï¿½
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½Trackï¿½ï¿½Koreo
+     * [ï¿½ã¼¶]ï¿½ï¿½TS
+     * [ï¿½ï¿½ï¿½Äºï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½StartConvet()ï¿½Ô¿ï¿½Ê¼×ªï¿½ï¿½ï¿½ï¿½
+     * [ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½]ï¿½ï¿½sourceFilePathï¿½ï¿½sourceBeatmapNameï¿½ï¿½sourceAudioName
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½Ç°Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½Ê½ï¿½ï¿½È·ï¿½ï¿½
      */
     public class ConvetBeatmapOSUMania : MonoBehaviour
     {
         #region Fields
-        // Òª×ª»»µ½µÄKoreoºÍTrackÈÝÆ÷
+        // Òª×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Koreoï¿½ï¿½Trackï¿½ï¿½ï¿½ï¿½
         public Koreography targetKoreo;
         public KoreographyTrack targetTrack;
-        // Ä¬ÈÏeventID
+        // Ä¬ï¿½ï¿½eventID
         public static string DEFAULT_EventID = "audio";
-        // ´æ´¢ÆÌÃæÎÄ¼þºÍÒôÆµµÄÎÄ¼þ¼ÐÂ·¾¶£¨Windows±ê×¼Â·¾¶£©
+        // ï¿½æ´¢ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½Windowsï¿½ï¿½×¼Â·ï¿½ï¿½ï¿½ï¿½
         public string sourceFilePath;
-        // ÆÌÃæÎÄ¼þµÄÃû³Æ£¨²»´øºó×ºÃûosu£©
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ºï¿½ï¿½osuï¿½ï¿½
         public string sourceBeatmapName;
-        // ÒôÆµÎÄ¼þµÄÃû³Æ£¨´øºó×ºÃû£¬Ä¬ÈÏÎªaudio.mp3£©
+        // ï¿½ï¿½Æµï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ£ï¿½ï¿½ï¿½ï¿½ï¿½×ºï¿½ï¿½ï¿½ï¿½Ä¬ï¿½ï¿½Îªaudio.mp3ï¿½ï¿½
         public string sourceAudioName;
-        // ¼ÓÔØÆÌÃæµÄ¹ìµÀÊý
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¹ï¿½ï¿½ï¿½ï¿½
         public int columnCount = 4;
 
-        // ÒÔÏÂÊý¾Ý³ÉÔ±´ÓÎÄ¼þÖÐ¶ÁÈ¡£º
-        // ´æ´¢¼ÓÔØµÄÒôÆµÎÄ¼þ
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý³ï¿½Ô±ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ð¶ï¿½È¡ï¿½ï¿½
+        // ï¿½æ´¢ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½Æµï¿½Ä¼ï¿½
         private AudioClip sourceAudio;
-        // ÒôÆµÎÄ¼þµÄÃû³Æ£¨²»´øºó×ºÃû£¬ÓÃÓÚÉú³ÉeventID£©
+        // ï¿½ï¿½Æµï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½eventIDï¿½ï¿½
         private string sourceAudioFileName;
-        // ÒôÆµ²¥·ÅÇ°µÄ×¼±¸Ê±¼ä
+        // ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½×¼ï¿½ï¿½Ê±ï¿½ï¿½
         private int audioLeadInTime;
-        // ÒôÆµ²ÉÑùÂÊ
+        // ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         private int SampleRate = 44100;
 
         #endregion
@@ -48,36 +48,36 @@ namespace Assets.Scripts
         #region Methods
 
         /*
-         GeneEvent: Éú³ÉÒ»¸öTrackÉÏµÄÊÂ¼þ
-         @sp : ÊÂ¼þ¿ªÊ¼Ê±¼ä(ms)
-         @ep £ºÊÂ¼þ½áÊøÊ±¼ä(ms)
-         @ps : ÊÂ¼þµÄÊôÐÔ×Ö·û´®
+         GeneEvent: ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Trackï¿½Ïµï¿½ï¿½Â¼ï¿½
+         @sp : ï¿½Â¼ï¿½ï¿½ï¿½Ê¼Ê±ï¿½ï¿½(ms)
+         @ep ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½(ms)
+         @ps : ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½
         */
         KoreographyEvent GeneEvent(int sp, int ep, string ps)
         {
             KoreographyEvent evt = new KoreographyEvent();
 
-            // ´«Èë²ÎÊýµ¥Î»ÎªºÁÃë£¬½«Æä×ª»»Îª²ÉÑùÂÊ
-            evt.StartSample = (int)(0.001f * sp * SampleRate);  // ÉèÖÃ¿ªÊ¼²ÉÑùÊ±¼ä
-            evt.EndSample = (int)(0.001f * ep * SampleRate); // ÉèÖÃ½áÊø²ÉÑùÊ±¼ä
-            TextPayload payload = new TextPayload(); // newÒ»¸ö×Ö·û´®paylod
-            payload.TextVal = ps; // ÉèÖÃpayload×Ö·û´®
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»Îªï¿½ï¿½ï¿½ë£¬ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            evt.StartSample = (int)(0.001f * sp * SampleRate);  // ï¿½ï¿½ï¿½Ã¿ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+            evt.EndSample = (int)(0.001f * ep * SampleRate); // ï¿½ï¿½ï¿½Ã½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+            TextPayload payload = new TextPayload(); // newÒ»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½paylod
+            payload.TextVal = ps; // ï¿½ï¿½ï¿½ï¿½payloadï¿½Ö·ï¿½ï¿½ï¿½
             evt.Payload = payload;
             return evt;
         }
 
         /*
-         AddEvents: ½«¶à¸öÊÂ¼þÐ´Èëµ½Ò»¸öTrackÖÐ
-         @track : ÒªÐ´ÈëµÄtrack
-         @events £ºÒªÐ´ÈëµÄÊÂ¼þÁÐ±í
+         AddEvents: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½Ð´ï¿½ëµ½Ò»ï¿½ï¿½Trackï¿½ï¿½
+         @track : ÒªÐ´ï¿½ï¿½ï¿½track
+         @events ï¿½ï¿½ÒªÐ´ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½Ð±ï¿½
         */
         void AddEvents(KoreographyTrack track, List<KoreographyEvent> events)
         {
             foreach (KoreographyEvent evt in events)
             {
                 bool isAdded = track.AddEvent(evt);
-                // Èç¹ûÍ¬Ò»Ê±¼äÓÐ¶à¸öÊÂ¼þÐ´Èë£¬Îª·ÀÖ¹³åÍ»£¬ºóµ½µÄÊÂ¼þÆðÊ¼ºÍ½áÊø²ÉÑù+1
-                // ¼¸ºõ²»Ó°ÏìÓÎÏ·ÌåÑé
+                // ï¿½ï¿½ï¿½Í¬Ò»Ê±ï¿½ï¿½ï¿½Ð¶ï¿½ï¿½ï¿½Â¼ï¿½Ð´ï¿½ë£¬Îªï¿½ï¿½Ö¹ï¿½ï¿½Í»ï¿½ï¿½ï¿½óµ½µï¿½ï¿½Â¼ï¿½ï¿½ï¿½Ê¼ï¿½Í½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½+1
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó°ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½
                 while (!isAdded)
                 {
                     evt.StartSample += 1;
@@ -88,7 +88,7 @@ namespace Assets.Scripts
         }
 
         /*
-         ModifyTargetKoreo: ÉèÖÃÄ¿±êKoreoµÄTrack
+         ModifyTargetKoreo: ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½Koreoï¿½ï¿½Track
         */
         void ModifyTargetKoreo()
         {
@@ -104,14 +104,14 @@ namespace Assets.Scripts
             targetKoreo.AddTrack(targetTrack);
         }
 
-        /* IEnumerator GetAudioClip£ºÊ¹ÓÃUnityWebRequestµ¼ÈëÒôÆµ×ÊÔ´£¨±¾µØ£© 
-         * @path : µ¼ÈëÎÄ¼þËùÔÚµÄÂ·¾¶
+        /* IEnumerator GetAudioClipï¿½ï¿½Ê¹ï¿½ï¿½UnityWebRequestï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½Ô´ï¿½ï¿½ï¿½ï¿½ï¿½Ø£ï¿½ 
+         * @path : ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Úµï¿½Â·ï¿½ï¿½
          */
         IEnumerator GetAudioClip(string path)
         {
             using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(path, AudioType.MPEG))
             {
-                // ÏòÄ¿µÄµØÖ··¢ËÍÇëÇó£¬´Ë´¦Îª±¾µØÇëÇó£¬²¢µÈ´ý»Ø¸´
+                // ï¿½ï¿½Ä¿ï¿½Äµï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ó£¬´Ë´ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ó£¬²ï¿½ï¿½È´ï¿½ï¿½Ø¸ï¿½
                 yield return www.SendWebRequest();
 
                 if (www.result == UnityWebRequest.Result.ConnectionError)
@@ -120,13 +120,13 @@ namespace Assets.Scripts
                 }
                 else
                 {
-                    // ´ÓwwwÖÐ»ñµÃ×ÊÔ´
+                    // ï¿½ï¿½wwwï¿½Ð»ï¿½ï¿½ï¿½ï¿½Ô´
                     sourceAudio = DownloadHandlerAudioClip.GetContent(www);
                     sourceAudio.name = sourceAudioFileName;
-                    // »ñµÃÒôÆµµÄ²ÉÑùÂÊ
+                    // ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½Ä²ï¿½ï¿½ï¿½ï¿½ï¿½
                     SampleRate = sourceAudio.frequency;
 
-                    // ÉèÖÃÄ¿±êKoreoµÄÒôÆµ
+                    // ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½Koreoï¿½ï¿½ï¿½ï¿½Æµ
                     targetKoreo.SourceClip = sourceAudio;
                     targetKoreo.SampleRate = SampleRate;
 
@@ -137,21 +137,21 @@ namespace Assets.Scripts
 
 
         /*
-         * [ÒÑÆúÓÃ]´«Í³Resources.Load£¬Ö»ÄÜÇ¶ÈëÊ¹ÓÃ£¬½«ÒÑ´æÔÚËØ²ÄÎÄ¼þ¼ÐµÄÒôÆµÒýÓÃ¼ÓÔØµ½KoreoÖÐ
+         * [ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½ï¿½Í³Resources.Loadï¿½ï¿½Ö»ï¿½ï¿½Ç¶ï¿½ï¿½Ê¹ï¿½Ã£ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½ï¿½ï¿½ï¿½Ø²ï¿½ï¿½Ä¼ï¿½ï¿½Ðµï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½Ã¼ï¿½ï¿½Øµï¿½Koreoï¿½ï¿½
         void loadAudioSource()
         {
             sourceAudio = Resources.Load<AudioClip>(sourceAudioFileName);
-            // »ñµÃÒôÆµµÄ²ÉÑùÂÊ
+            // ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½Ä²ï¿½ï¿½ï¿½ï¿½ï¿½
             SampleRate =  sourceAudio.frequency;
         }
         */
         /*
-         ConvertBeatmap: ½«OSU¸ñÊ½µÄÆÌÃæ×ª»¯Îªº¬ÒåÊÂ¼þµÄKoreoTrack
-         @beatmapRes : °´ÕÕ»»ÐÐ·Ö¸ôµÄOSU¸ñÊ½note¶¨Òå×Ö·û´®
+         ConvertBeatmap: ï¿½ï¿½OSUï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½KoreoTrack
+         @beatmapRes : ï¿½ï¿½ï¿½Õ»ï¿½ï¿½Ð·Ö¸ï¿½ï¿½ï¿½OSUï¿½ï¿½Ê½noteï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½
         */
         void ConvertBeatmap(List<string> beatmapRes)
         {
-            // ÏÈÇå³ýÁÙÊ±trackµÄËùÓÐÊÂ¼þ
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±trackï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½
             targetTrack.RemoveAllEvents();
 
             targetTrack.EventID = DEFAULT_EventID;
@@ -159,13 +159,13 @@ namespace Assets.Scripts
             List<KoreographyEvent> events = new List<KoreographyEvent>();
             foreach (string note in beatmapRes)
             {
-                /* ¸ñÊ½¾ÙÀý£º
-                 0 xÖáÎ»ÖÃ£¬1 yÖáÎ»ÖÃ£¬2ÆðÊ¼Ê±¼ä£¬3ÀàÐÍ(128ÊÇ³¤Ìõ)£¬4´ò»÷ÒôÐ§£¬5½áÊøÊ±¼ä:ÆäËûÊôÐÔ
+                /* ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                 0 xï¿½ï¿½Î»ï¿½Ã£ï¿½1 yï¿½ï¿½Î»ï¿½Ã£ï¿½2ï¿½ï¿½Ê¼Ê±ï¿½ä£¬3ï¿½ï¿½ï¿½ï¿½(128ï¿½Ç³ï¿½ï¿½ï¿½)ï¿½ï¿½4ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½5ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                  192,192,19688,5,2,0:0:0:20:D4S.wav
                  448,192,19688,128,2,20913:0:0:0:20:LR_NBell_F#5.wav
                 */
 
-                // »ñµÃ¸÷¸öÎ»ÖÃµÄÊý¾Ý
+                // ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½Î»ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½
                 var data = note.Split(',');
                 int posX = int.Parse(data[0]);
                 int startTime = int.Parse(data[2]);
@@ -174,7 +174,7 @@ namespace Assets.Scripts
                 bool isHold = false;
                 string payload = "";
 
-                // ÅÐ¶ÏÊÇ·ñÎª³¤°´ÀàÐÍ
+                // ï¿½Ð¶ï¿½ï¿½Ç·ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 if (data[3].Equals("128"))
                 {
                     isHold = true;
@@ -188,35 +188,35 @@ namespace Assets.Scripts
                 {
                     payload += "C";
                 }
-                // ÅÐ¶ÏnoteËùÔÚµÄ¹ìµÀ
+                // ï¿½Ð¶ï¿½noteï¿½ï¿½ï¿½ÚµÄ¹ï¿½ï¿½
                 int trackNo = Mathf.FloorToInt(posX * columnCount / 512) + 1;
-                // Éú³ÉÊÂ¼þÊôÐÔ×Ö·û´®
+                // ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½
                 payload += "," + trackNo.ToString();
 
-                // ¸ù¾ÝÊý¾ÝÉú³ÉÊÂ¼þ£¬²¢¼ÓÈëÊÂ¼þÁÐ±í
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½Ð±ï¿½
                 events.Add(GeneEvent(startTime, endTime, payload));
             }
-            // ¸ù¾ÝÊÂ¼þÁÐ±íÉú³ÉTrack
+            // ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½Ð±ï¿½ï¿½ï¿½ï¿½ï¿½Track
             AddEvents(targetTrack, events);
         }
 
         /*
-         BeatmapRead_local: ¶ÁÈ¡OSU¸ñÊ½µÄÆÌÃæ²¢ÌáÈ¡ºËÐÄÊý¾Ý
+         BeatmapRead_local: ï¿½ï¿½È¡OSUï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½æ²¢ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         */
         List<string> BeatmapRead_local()
         {
-            // »ñµÃÆÌÃæÎÄ¼þÂ·¾¶
-            string beatmapFilePath = Path.Combine(sourceFilePath, sourceBeatmapName );//É¾³ý+ ".osu"
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½Â·ï¿½ï¿½
+            string beatmapFilePath = Path.Combine(sourceFilePath, sourceBeatmapName );//É¾ï¿½ï¿½+ ".osu"
             Debug.Log("beatmapFilePath: " + beatmapFilePath);
 
             string line = "";
             List<string> result = new List<string>();
 
-            // ´ò¿ªÎÄ¼þÁ÷
+            // ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½
             FileStream fs = new FileStream(beatmapFilePath, FileMode.Open, FileAccess.Read);
             StreamReader sr = new StreamReader(fs);
 
-            // ¶ÁÈ¡"[HitObjects]"Êý¾Ý¿éÇ°¹ØÓÚÒôÆµµÄÐÅÏ¢
+            // ï¿½ï¿½È¡"[HitObjects]"ï¿½ï¿½ï¿½Ý¿ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½Ï¢
             while (!(line = sr.ReadLine()).Equals("[HitObjects]"))
             {
                 if (line.Split(':')[0].Equals("AudioFilename"))
@@ -231,7 +231,7 @@ namespace Assets.Scripts
                     // Debug.Log("audioLeadInTime: " + audioLeadInTime);
                 }
             }
-            // ¶ÁÈ¡"[HitObjects]"Êý¾Ý¿éÖÐµÄÃ¿Ò»ÐÐ£¬½«Æä·Ö¸î¼ÓÈë×Ö·û´®ÁÐ±í
+            // ï¿½ï¿½È¡"[HitObjects]"ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½Ðµï¿½Ã¿Ò»ï¿½Ð£ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
             while ((line = sr.ReadLine()) != null)
             {
                 result.Add(line);
@@ -240,45 +240,45 @@ namespace Assets.Scripts
         }
 
         /*
-         IEnumerator LoadBeatmap: Ð­µ÷Õû¸öÆÌÃæ×ª»»µÄÁ÷³Ì
+         IEnumerator LoadBeatmap: Ð­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         */
         IEnumerator LoadBeatmap()
         {
-            // »ñµÃÊäÈëÎÄ¼þÂ·¾¶µÄURI
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½Â·ï¿½ï¿½ï¿½ï¿½URI
             string cwd = System.Environment.CurrentDirectory;
             Debug.Log("[Path]: " + Path.Combine(cwd, sourceFilePath, sourceAudioName));
             string path = new Uri(Path.Combine(cwd, sourceFilePath, sourceAudioName)).AbsoluteUri;
             Debug.Log("[LoadAudioFilePath]: " + path);
 
-            // ¶ÁÈ¡osu mainaÆÌÃæÎÄ¼þÊý¾Ý
+            // ï¿½ï¿½È¡osu mainaï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
             List<string> beatmaplines = BeatmapRead_local();
 
-            // µÈ´ýÒôÆµ¼ÓÔØÍê±Ï
+            // ï¿½È´ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             yield return StartCoroutine(GetAudioClip(path));
             // Debug.Log("[Audio Load Compeleted]");
 
-            // ½«ÆÌÃæ×ª»»µ½TrackÖÐ
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½Trackï¿½ï¿½
             ConvertBeatmap(beatmaplines);
 
-            // ½«TrackÔØÈëµ½KoreoÖÐ
+            // ï¿½ï¿½Trackï¿½ï¿½ï¿½ëµ½Koreoï¿½ï¿½
             ModifyTargetKoreo();
             // Debug.Log("[Koreo Load Compeleted]");
         }
 
         /*
-         StartConvet: ¹¦ÄÜÈë¿Úº¯Êý£¬¿ªÆô×ª»»
+         StartConvet: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½
         */
         public void StartConvet()
         {
             if (sourceFilePath == "" || sourceBeatmapName == "" || sourceAudioName == "")
             {
-                Debug.Log("ERROR£ºThere is INCOMPLETE path or name. Please Check Input!");
+                Debug.Log("ERRORï¿½ï¿½There is INCOMPLETE path or name. Please Check Input!");
                 return;
             }
             print(sourceFilePath+ sourceBeatmapName+ sourceAudioName);
             StartCoroutine(LoadBeatmap());
 
-            // ½«×ª»»ºóµÄÎïÌåÒýÓÃ´«¸øonLoadObject
+            // ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã´ï¿½ï¿½ï¿½onLoadObject
             LoadKoreoInfo onLoadObject = FindObjectOfType<LoadKoreoInfo>();
 
             onLoadObject.onLoadKoreo = targetKoreo;

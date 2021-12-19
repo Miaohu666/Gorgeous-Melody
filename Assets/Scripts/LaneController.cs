@@ -162,6 +162,8 @@ namespace SonicBloom.Koreo.Demos
 			{
 				CheckNoteHit(); // 判断是否打击到note
 				SetScalePress(); // 触发判定线缩放的视觉效果（按下）
+				// 同时播放指定的动效
+				GameObject.Find("Hit3").SendMessage("playParticlewithPos", transform.position);
 			}
 			else if (Input.GetKey(keyboardButton))
 			{
@@ -219,7 +221,6 @@ namespace SonicBloom.Koreo.Demos
 				// 问题：不知道为什么会记录到其他轨道的note……
 				// 现在采用在使用curHitNote的函数中二次检查来避免出现致命bug
 				this.curHitNote = hitNote;
-
 				hitNote.OnHit();
 				return hitNote;
 			}
@@ -263,7 +264,6 @@ namespace SonicBloom.Koreo.Demos
 			//将note颜色变半透明
 			cur_note.headVisuals.color = expireVisualColor(cur_note.headVisuals.color);
 			cur_note.bodyVisuals.color = expireVisualColor(cur_note.bodyVisuals.color);
-			cur_note.endVisuals.color = expireVisualColor(cur_note.endVisuals.color);
 		}
 		Color expireVisualColor(Color color)
 		{

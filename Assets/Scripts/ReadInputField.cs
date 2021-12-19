@@ -8,8 +8,8 @@ using System.IO;
 using System;
 using UnityEngine.SceneManagement;
 
-/* ReadInputField£º ´ÓÎÄ±¾ÊäÈë¿òÖÐÌáÈ¡×Ö·û´®£¬È»ºó´«µÝ¸ø×ª»»½Å±¾
- * ²ã¼¶£ºUI
+/* ReadInputFieldï¿½ï¿½ ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½È»ï¿½ó´«µÝ¸ï¿½×ªï¿½ï¿½ï¿½Å±ï¿½
+ * ï¿½ã¼¶ï¿½ï¿½UI
  */
 public class ReadInputField : MonoBehaviour
 {
@@ -62,10 +62,10 @@ public class ReadInputField : MonoBehaviour
 
     void AddDropDownOptionsData(Dropdown dropDown,string itemText)
     {
-        //Ìí¼ÓÒ»¸öÏÂÀ­Ñ¡Ïî
+        //ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½
         Dropdown.OptionData data = new Dropdown.OptionData();
         data.text = itemText;
-        //data.image = "Ö¸¶¨Ò»¸öÍ¼Æ¬×ö±³¾°²»Ö¸¶¨ÔòÊ¹ÓÃÄ¬ÈÏ"£»
+        //data.image = "Ö¸ï¿½ï¿½Ò»ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½Ä¬ï¿½ï¿½"ï¿½ï¿½
         dropDown.options.Add(data);
     }
 
@@ -82,8 +82,8 @@ public class ReadInputField : MonoBehaviour
             isReady();
 
             SelectMusic musicSelector = musicMannager.GetComponent<SelectMusic>();
-            musicSelector.clearAllButton();//Çå¿Õµ±Ç°»¬¶¯Ñ¡ÔñÁÐ±íÖÐµÄ°´Å¥
-            musicSelector.selectmusic(fullDirPath);//½«ÐÂÂ·¾¶ÏÂµÄÒôÀÖ¼°ÆäÆ×ÃæÎÄ¼þ¼ÓÔØµ½»¬¶¯ÁÐ±íÖÐ
+            musicSelector.clearAllButton();//ï¿½ï¿½Õµï¿½Ç°ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ÐµÄ°ï¿½Å¥
+            musicSelector.selectmusic(fullDirPath);//ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½
         }
         slider.value = PlayerPrefs.GetFloat("NoteSpeed", 8.0f);
         readoutSpeedValue.text = slider.value.ToString();
@@ -98,8 +98,8 @@ public class ReadInputField : MonoBehaviour
     public void getDIRPath()
     {
         OpenDialogDir ofn2 = new OpenDialogDir();
-        ofn2.pszDisplayName = new string(new char[2000]); ;     // ´æ·ÅÄ¿Â¼Â·¾¶»º³åÇø  
-        ofn2.lpszTitle = "ÇëÑ¡ÔñÆ×ÃæÎÄ¼þËùÔÚÎÄ¼þ¼Ð";// ±êÌâ  
+        ofn2.pszDisplayName = new string(new char[2000]); ;     // ï¿½ï¿½ï¿½Ä¿Â¼Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
+        ofn2.lpszTitle = "ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½";// ï¿½ï¿½ï¿½ï¿½  
         IntPtr pidlPtr = DllOpenFileDialog.SHBrowseForFolder(ofn2);
 
         char[] charArray = new char[2000];
@@ -109,7 +109,7 @@ public class ReadInputField : MonoBehaviour
         DllOpenFileDialog.SHGetPathFromIDList(pidlPtr, charArray);
         fullDirPath = new String(charArray);
         fullDirPath = fullDirPath.Substring(0, fullDirPath.IndexOf('\0'));
-        print(fullDirPath);//Õâ¸ö¾ÍÊÇÑ¡ÔñµÄÄ¿Â¼Â·¾¶¡£
+        print(fullDirPath);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Ä¿Â¼Â·ï¿½ï¿½ï¿½ï¿½
 
         if(fullDirPath == "")
         {
@@ -124,8 +124,8 @@ public class ReadInputField : MonoBehaviour
         isReady();
 
         SelectMusic musicSelector = musicMannager.GetComponent<SelectMusic>();
-        musicSelector.clearAllButton();//Çå¿Õµ±Ç°»¬¶¯Ñ¡ÔñÁÐ±íÖÐµÄ°´Å¥
-        musicSelector.selectmusic(fullDirPath);//½«ÐÂÂ·¾¶ÏÂµÄÒôÀÖ¼°ÆäÆ×ÃæÎÄ¼þ¼ÓÔØµ½»¬¶¯ÁÐ±íÖÐ
+        musicSelector.clearAllButton();//ï¿½ï¿½Õµï¿½Ç°ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ÐµÄ°ï¿½Å¥
+        musicSelector.selectmusic(fullDirPath);//ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½
     }
 
     public void onStart(string scene)
