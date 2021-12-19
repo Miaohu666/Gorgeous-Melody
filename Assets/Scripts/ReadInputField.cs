@@ -99,7 +99,7 @@ public class ReadInputField : MonoBehaviour
     {
         OpenDialogDir ofn2 = new OpenDialogDir();
         ofn2.pszDisplayName = new string(new char[2000]); ;     // 存放目录路径缓冲区  
-        ofn2.lpszTitle = "请选择铺面文件所在文件夹";// 标题  
+        ofn2.lpszTitle = "请选择谱面文件所在文件夹";// 标题  
         IntPtr pidlPtr = DllOpenFileDialog.SHBrowseForFolder(ofn2);
 
         char[] charArray = new char[2000];

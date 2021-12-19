@@ -21,14 +21,12 @@ public class SelectMusic : MonoBehaviour
     RectTransform rect;//容器content的rect
     public VerticalLayoutGroup group;//用于计算内容的高度
 
-    
-
     class myButton
     {
         public Button item;
         string filename;
 
-        public myButton(string filename_,Button mItemPrefab_, Transform mContentTransform_)
+        public myButton(string filename_, Button mItemPrefab_, Transform mContentTransform_)
         {
             filename = filename_;
             item = Instantiate(mItemPrefab_);
@@ -89,80 +87,51 @@ public class SelectMusic : MonoBehaviour
         //string path = @"F:\Gorgeous-Melody-develop\Assets\OSUmaps\581729 jioyi - cyanine";
         DirectoryInfo root = new DirectoryInfo(path);
 
-            foreach (DirectoryInfo f in root.GetDirectories())
-            {
-                myButton btn = new myButton(f.Name, mItemPrefab, mContentTransform);
-                lists.Add(btn);
-                //给每个按钮组件监听点击事件
-                btn.item.onClick.AddListener(
-                    () =>
+        int count = 0;
+        foreach (DirectoryInfo f in root.GetDirectories())
+        {
+            myButton btn = new myButton(f.Name, mItemPrefab, mContentTransform);
+            lists.Add(btn);
+            count++;
+            //给每个按钮组件监听点击事件
+            btn.item.onClick.AddListener(
+                () =>
+                {
+                    ConvetBeatmapOSUMania conveter = beatmapMannager.GetComponent<ConvetBeatmapOSUMania>();//设定谱面文件夹所在的路径
+                    string temp = path + "/" + btn.getFileName();
+                    conveter.sourceFilePath = temp;
+
+                    ReadInputField judge = beatmapMannager.GetComponent<ReadInputField>();
+                    judge.isSelected = false;
+                    judge.isReady();
+
+
+                    foreach (FileInfo f in new DirectoryInfo(temp).GetFiles("*.jpg"))
                     {
-                        ConvetBeatmapOSUMania conveter = beatmapMannager.GetComponent<ConvetBeatmapOSUMania>();//设定谱面文件夹所在的路径
-                        string temp = path + "/" + btn.getFileName();
-                        conveter.sourceFilePath = temp;
+                        Texture2D img = null;
+                        WWW www = new WWW("file://" + f.FullName);
 
-                        ReadInputField judge = beatmapMannager.GetComponent<ReadInputField>();
-                        judge.isSelected = false;
-                        judge.isReady();
+                        print("file://" + f.FullName);
 
-                         
-                        foreach (FileInfo f in new DirectoryInfo(temp).GetFiles("*.jpg"))
-                        {
-                            Texture2D img = null;
-                            WWW www = new WWW("file://"+f.FullName);
-                            
-                            print("file://" + f.FullName);
-                        
-                                img = www.texture;
-                                Sprite sprite = Sprite.Create(img, new Rect(0, 0, img.width, img.height), new Vector2(0.5f, 0.5f));
-                                judge.image.sprite = sprite;
-                            
-                        }
+                        img = www.texture;
+                        Sprite sprite = Sprite.Create(img, new Rect(0, 0, img.width, img.height), new Vector2(0.5f, 0.5f));
+                        judge.image.sprite = sprite;
 
-                       // foreach (FileInfo f in new DirectoryInfo(temp).GetFiles("*.mp3"))
-                        //{
-                            StartCoroutine(GetAudioClip("file://" + temp + "/audio.mp3"));//播放选中的音乐
-                            
-                        //}
-
-                        
-                        selectBeatmap beatmapselector = beatmapSelector.GetComponent<selectBeatmap>();
-                        beatmapselector.clearAllButton();//清空原有的按钮
-                        beatmapselector.selectBeatMap(temp);//读取玩家所选择的音乐下的所有谱面文件
-                        judge.audioIF.text = btn.getFileName();
                     }
-                );
-            }
-        
+
+                    StartCoroutine(GetAudioClip("file://" + temp + "/audio.mp3"));//播放选中的音乐
+
+                    selectBeatmap beatmapselector = beatmapSelector.GetComponent<selectBeatmap>();
+                    beatmapselector.clearAllButton();//清空原有的按钮
+                    beatmapselector.selectBeatMap(temp);//读取玩家所选择的音乐下的所有谱面文件
+                    judge.audioIF.text = btn.getFileName();
+                }
+            );
+        }
+        mContentTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(500, count * 50);
     }
     void Update()
     {
     }
 
-    //使列表跳转到顶部
-    void ToTopFunc()
-    {
-
-        //offsetMin 是vector2(left, bottom);
-
-        //offsetMax 是vector2(right, top);
-
-        rect.offsetMin = new Vector2(rect.offsetMin.x, -rect.sizeDelta.y);
-        rect.offsetMax = new Vector2(rect.offsetMax.x, 0);
-
-
-    }
-    //使列表跳转到底部
-    void ToBottomFunc()
-    {
-
-        /*rect.offsetMin = new Vector2(rect.offsetMin.x, 0);
-        rect.offsetMax = new Vector2(rect.offsetMax.x, rect.sizeDelta.y);*/
-    }
-    void onClickFunc(myButton btn)
-    {
-        Debug.Log(btn.getFileName());
-    }
-    //清空列表
-    //删除单个按钮组件
 }
