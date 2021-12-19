@@ -49,10 +49,5 @@ namespace SonicBloom.Koreo.Demos
         {
             Application.Quit();
         }
-        // ��ʱʹ��(�˳���Ϸ)
-        public void Quit()
-        {
-            Application.Quit();
-        }
     }
 }

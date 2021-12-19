@@ -301,7 +301,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 8fc06027b01064e4f885fd8dd2929310, type: 3}
 --- !u!4 &45235233 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 400006, guid: 8fc06027b01064e4f885fd8dd2929310, type: 3}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 45235232}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &45235234 stripped
@@ -1061,7 +1061,7 @@ SpriteRenderer:
   m_Size: {x: 1.2, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &484562230
@@ -1369,7 +1369,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 1ca16f2a31fb6a548ad8954bed1d321f, type: 3}
 --- !u!4 &616016524 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 400006, guid: 1ca16f2a31fb6a548ad8954bed1d321f, type: 3}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 616016523}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &700556754
@@ -1486,8 +1486,8 @@ Transform:
   m_LocalPosition: {x: -9.860426, y: 3.1456745, z: -1.2621598}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 616016524}
   - {fileID: 45235233}
+  - {fileID: 616016524}
   - {fileID: 1784055620}
   m_Father: {fileID: 0}
   m_RootOrder: 16
@@ -1791,7 +1791,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 935747271}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 5d895fbfda432cb4bb42857e6323066b, type: 3}
+  m_VideoClip: {fileID: 0}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -3047,6 +3047,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSettingMode: 0
+  isEnd: 0
   eventID: mp3
   hitWindowRangeInMS: 120
   firstClassFactor: 0.2
@@ -3436,7 +3437,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 979632a27455af442bd2d8f36eb0ffce, type: 3}
 --- !u!4 &1784055620 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 400000, guid: 979632a27455af442bd2d8f36eb0ffce, type: 3}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 1784055619}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1784055621 stripped
