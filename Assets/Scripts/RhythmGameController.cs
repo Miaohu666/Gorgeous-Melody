@@ -44,6 +44,9 @@ namespace SonicBloom.Koreo.Demos
 		[Tooltip("生成音符物体的原型件脚本（可以是prefab）")]
 		public NoteObject noteObjectArchetype;
 
+		[Tooltip("收纳所有轨道的父物体")]
+		public GameObject LaneParent;
+
 		[Tooltip("轨道列表（传入脚本引用）")]
 		public List<LaneController> noteLanes = new List<LaneController>();
 
@@ -301,7 +304,7 @@ namespace SonicBloom.Koreo.Demos
 			else
 			{
 				// 实例化note对象
-				retObj = GameObject.Instantiate<NoteObject>(noteObjectArchetype);
+				retObj = GameObject.Instantiate<NoteObject>(noteObjectArchetype, LaneParent.transform);
 			}
 
 			// 将生成的note的状态设置为激活
