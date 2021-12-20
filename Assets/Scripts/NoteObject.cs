@@ -298,7 +298,7 @@ namespace SonicBloom.Koreo.Demos
 				// 处理UI、动画和得分情况
 				checkNoteJudge();
 				// 演示粒子效果
-				GameObject.Find("Hit2").SendMessage("playParticlewithPos", transform.position);
+				GameObject.Find("Hit2").SendMessage("playParticlewithPos", laneController.transform.position);
 				// 播放打击音效
 				GameObject.Find("StrikeSound").SendMessage("playStrikeAudio");
 				// playParticle();
