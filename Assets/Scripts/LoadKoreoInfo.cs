@@ -23,6 +23,7 @@ namespace SonicBloom.Koreo.Demos
         public GameObject beatmapManager;
 
         public bool is_background_video;
+        public bool is_auto_mode;
         public Sprite bgPicSprite;
 
 

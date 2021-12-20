@@ -214,6 +214,11 @@ namespace SonicBloom.Koreo.Demos
 				// 位置相对于判定线的移动量 = （当前帧的音频采样数 - 本note应当被击中时的音频采样数）/ spu
 				pos.y -= (gameController.DelayedSampleTime - trackedEvent.StartSample) / samplesPerUnit;
 				transform.position = pos;
+
+                if (IsNoteMissed(true))
+                {
+					headVisuals.enabled = false;
+				}
 			}
 		}
 
@@ -222,13 +227,22 @@ namespace SonicBloom.Koreo.Demos
 			return noteType;
 		}
 
+        internal bool IsOnAutoHit()
+        {
+			int noteTime = trackedEvent.StartSample; // 本note应当被击中时的音频采样数
+			int curTime = gameController.DelayedSampleTime; // 当前帧的音频采样数
+
+			// AUTO一定以perfect击中note
+			return (Mathf.Abs(noteTime - curTime) <= gameController.FirstLevelWindowSampleWidth);
+		}
 
 
-		// 判断本note是否在判定窗口中
-		// Checks to see if the Note Object is currently hittable or not based on current audio sample
-		//  position and the configured hit window width in samples (this window used during checks for both
-		//  before/after the specific sample time of the Note Object).
-		public bool IsNoteHittable()
+
+        // 判断本note是否在判定窗口中
+        // Checks to see if the Note Object is currently hittable or not based on current audio sample
+        //  position and the configured hit window width in samples (this window used during checks for both
+        //  before/after the specific sample time of the Note Object).
+        public bool IsNoteHittable()
 		{
 			int noteTime = trackedEvent.StartSample; // 本note应当被击中时的音频采样数
 			int curTime = gameController.DelayedSampleTime; // 当前帧的音频采样数
@@ -312,9 +326,12 @@ namespace SonicBloom.Koreo.Demos
 				// 将长条note的头部对准判定线，以防止玩家操作延迟造成的视觉误差
 				transform.position = new Vector3(transform.position.x,
 					laneController.transform.position.y ,transform.position.z);
-				
 
-				// TODO：处理UI、动画和得分情况
+
+				// 处理粒子特效:
+				GameObject.Find("Hit2").SendMessage("playParticlewithPos", laneController.transform.position);
+				// 播放打击音效
+				GameObject.Find("StrikeSound").SendMessage("playStrikeAudio");
 			}
 		}
 
@@ -472,6 +489,13 @@ namespace SonicBloom.Koreo.Demos
 			// 位置相对判定线的移动量 = （当前帧的音频采样数 - 本note应当松开时的音频采样数）/ spu
 			pos.y -= (gameController.DelayedSampleTime - trackedEvent.EndSample) / samplesPerUnit;
 			endVisuals.transform.position = pos;
+
+			if(endVisuals.transform.position.y <= headVisuals.transform.position.y)
+            {
+				headVisuals.enabled = false;
+				bodyVisuals.enabled = false;
+				endVisuals.enabled = false;
+			}
 
 		}
 

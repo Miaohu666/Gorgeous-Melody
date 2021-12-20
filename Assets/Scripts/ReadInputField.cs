@@ -26,6 +26,8 @@ public class ReadInputField : MonoBehaviour
     public TMP_Text readoutSpeedValue;
     public Button startButton;
     public Toggle bgVideoToggle;
+    public Toggle autoModeToggle;
+
 
     public List<string> nameOfbeatmap;
     public List<string> nameOfmusic;
@@ -136,6 +138,8 @@ public class ReadInputField : MonoBehaviour
         koreoLoadManager.bgPicSprite = image.sprite;
 
         koreoLoadManager.is_background_video = bgVideoToggle.isOn;
+
+        koreoLoadManager.is_auto_mode = autoModeToggle.isOn;
 
         ConvetBeatmapOSUMania conveter = gameObject.GetComponent<ConvetBeatmapOSUMania>();
         conveter.StartConvet();

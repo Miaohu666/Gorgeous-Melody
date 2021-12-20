@@ -14,6 +14,7 @@ public class GamingInfoDisplayUI : MonoBehaviour
     public TMP_Text comboValueUI;
     public TMP_Text scoreTextUI;
     public TMP_Text scoreValueUI;
+    public TMP_Text gamingRateUI;
     private Color judge_default_color;
 
     #endregion
@@ -124,6 +125,12 @@ public class GamingInfoDisplayUI : MonoBehaviour
     internal static void restart()
     {
         throw new NotImplementedException();
+    }
+
+    internal void updateGamingRate(float rate)
+    {
+        // 输出百分比形式
+        gamingRateUI.text = rate.ToString("p");
     }
     #endregion
 }

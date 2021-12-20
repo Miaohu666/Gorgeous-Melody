@@ -7,6 +7,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using SonicBloom.Koreo.Players;
 using UnityEngine.SceneManagement;
+using UnityEngine.Video;
 
 namespace SonicBloom.Koreo.Demos
 {
@@ -188,6 +189,9 @@ namespace SonicBloom.Koreo.Demos
                 {
 					bgVideoQuad.SetActive(true);
 				}
+
+				// 是否开启自动模式
+				isAutoMode = onLoadObject.is_auto_mode;
 				
 			}
 			
@@ -200,7 +204,7 @@ namespace SonicBloom.Koreo.Demos
 			// 【PS】：持久数据不能在移动平台使用
 			Koreographer.Instance.EventDelayInSeconds = PlayerPrefs.GetInt("DelayInMS", 0) * 0.001f;
 			if(!isSettingMode)
-				noteSpeed = PlayerPrefs.GetFloat("NoteSpeed", 8.0f);
+				noteSpeed = PlayerPrefs.GetFloat("NoteSpeed", 8.0f) * 2f;
 
 			// 初始化准备时间
 			InitializeLeadIn();
@@ -291,7 +295,9 @@ namespace SonicBloom.Koreo.Demos
 			float rate = playingKoreo.GetLatestSampleTime() /
 				(float)(playingKoreo.SourceClip.length * playingKoreo.SampleRate);
 
-			Debug.Log(rate);
+			// 右下角展示当前音乐播放的百分比
+			GamingInfoDisplayUI gUI = GameObject.Find("Canvas").GetComponent<GamingInfoDisplayUI>();
+			gUI.updateGamingRate(rate);
 
 			if (1 - rate <= 0.0001f && !isSettingMode)
 			{
@@ -353,6 +359,15 @@ namespace SonicBloom.Koreo.Demos
 			// 重置音频
 			audioCom.Stop();
 			audioCom.time = 0f;
+
+            // 重置视频
+            if (bgVideoQuad.activeSelf)
+            {
+				bgVideoQuad.GetComponent<VideoPlayer>().Stop();
+				bgVideoQuad.GetComponent<VideoPlayer>().time = 0f;
+
+
+			}
 			
 
 			// 重置所有还在延时状态的事件  
