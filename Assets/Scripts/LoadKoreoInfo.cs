@@ -43,13 +43,13 @@ namespace SonicBloom.Koreo.Demos
         public void StartPlayingScene(string scene)
         {
 
-            /* ConvetBeatmapOSUMania conveter = gameObject.GetComponent<ConvetBeatmapOSUMania>();
-            conveter.StartConvet();
+/*            ConvetBeatmapOSUMania conveter = gameObject.GetComponent<ConvetBeatmapOSUMania>();
+            conveter.StartConvet();*//*
 
-            ReadInputField judge = beatmapManager.GetComponent<ReadInputField>();//��ͣ�������ֲ���
-            judge.BGM.Stop();
+            ReadInputField judge = beatmapManager.GetComponent<ReadInputField>();
+            judge.BGM.Stop();*/
 
-            SceneManager.LoadScene(scene);*/
+            SceneManager.LoadScene(scene);
 
         }
         // ��ʱʹ��(�˳���Ϸ)
