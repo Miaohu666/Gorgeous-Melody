@@ -4,9 +4,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using Assets.Scripts;
+using UnityEngine.UI;
 
-/* LoadKoreoInfo£º ´Ó×ª»»½Å±¾ÖÐ»ñµÃKoreoµÈ×ÊÔ´ÒýÓÃ£¬ÓÃÓÚ¿ç³¡¾°´«²Î
- * ²ã¼¶£ºTS
+/* LoadKoreoInfoï¿½ï¿½ ï¿½ï¿½×ªï¿½ï¿½ï¿½Å±ï¿½ï¿½Ð»ï¿½ï¿½Koreoï¿½ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½Ã£ï¿½ï¿½ï¿½ï¿½Ú¿ç³¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * ï¿½ã¼¶ï¿½ï¿½TS
  */
 namespace SonicBloom.Koreo.Demos
 {
@@ -19,7 +20,12 @@ namespace SonicBloom.Koreo.Demos
 
         public TMP_Text beatmapNameUI;
 
-        public GameObject beatmapMannager;
+        public GameObject beatmapManager;
+
+        public bool is_background_video;
+        public bool is_auto_mode;
+        public Sprite bgPicSprite;
+
 
         // Start is called before the first frame update
         void Start()
@@ -33,18 +39,20 @@ namespace SonicBloom.Koreo.Demos
 
         }
 
-        // ÁÙÊ±Ê¹ÓÃ(¼ÓÔØ³¡¾°)
+        // Obsoleted
         public void StartPlayingScene(string scene)
         {
-            SceneManager.LoadScene(scene);
 
-            ConvetBeatmapOSUMania conveter = gameObject.GetComponent<ConvetBeatmapOSUMania>();
+            /* ConvetBeatmapOSUMania conveter = gameObject.GetComponent<ConvetBeatmapOSUMania>();
             conveter.StartConvet();
 
-            ReadInputField judge = beatmapMannager.GetComponent<ReadInputField>();//ÔÝÍ£±³¾°ÒôÀÖ²¥·Å
+            ReadInputField judge = beatmapManager.GetComponent<ReadInputField>();//ï¿½ï¿½Í£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö²ï¿½ï¿½ï¿½
             judge.BGM.Stop();
+
+            SceneManager.LoadScene(scene);*/
+
         }
-        // ÁÙÊ±Ê¹ÓÃ(ÍË³öÓÎÏ·)
+        // ï¿½ï¿½Ê±Ê¹ï¿½ï¿½(ï¿½Ë³ï¿½ï¿½ï¿½Ï·)
         public void Quit()
         {
             Application.Quit();

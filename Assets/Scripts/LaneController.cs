@@ -132,6 +132,7 @@ namespace SonicBloom.Koreo.Demos
 
 		void Update()
 		{
+
 			// 清空队列里的已判定为miss的note
 			while (trackedNotes.Count > 0 && trackedNotes.Peek().IsNoteMissed())
 			{
@@ -147,6 +148,20 @@ namespace SonicBloom.Koreo.Demos
 			// 检查是否有新的note生成
 			CheckSpawnNext();
 
+			// Auto模式下，每一帧都自动进行输入判断
+			if (gameController.isAutoMode)
+			{
+				CheckNoteHit();
+				if (curHitNote != null)
+				{
+					CheckNoteRelese(curHitNote);
+				}
+				return;
+			}
+
+			if (gameController.isSettingMode)
+				return;
+
 			// 检查玩家输入
 			// 如果要更改为触控输入，修改Event System的参数而无需修改以下输入检测代码
 			// 触控输入系统没有“长按”判定的内置实现，如需实现，请额外编写代码
@@ -155,13 +170,12 @@ namespace SonicBloom.Koreo.Demos
 			//  what is found here.  Touch input does not have a built-in concept of "Held", so it is not
 			//  currently supported.
 
-			if (gameController.isSettingMode)
-				return;
-
 			if (Input.GetKeyDown(keyboardButton))
 			{
 				CheckNoteHit(); // 判断是否打击到note
 				SetScalePress(); // 触发判定线缩放的视觉效果（按下）
+				// 同时播放指定的动效
+				GameObject.Find("Hit3").SendMessage("playParticlewithPos", transform.position);
 			}
 			else if (Input.GetKey(keyboardButton))
 			{
@@ -204,8 +218,19 @@ namespace SonicBloom.Koreo.Demos
 		// 该函数返回值暂时不使用
 		public NoteObject CheckNoteHit()
 		{
+			// 自动模式检查note和击中时间是否对应
+            if (gameController.isAutoMode)
+            {
+				if(trackedNotes.Count > 0 && trackedNotes.Peek().IsOnAutoHit())
+                {
+					NoteObject hitNote = trackedNotes.Dequeue();
+					this.curHitNote = hitNote;
+					hitNote.OnHit();
+					return hitNote;
+				}
+            }
 			// 永远只检查队列中的第一个note是否被击中，所以记得在update一开始一定要清除missed的note
-			if (trackedNotes.Count > 0 && trackedNotes.Peek().IsNoteHittable())
+			else if (trackedNotes.Count > 0 && trackedNotes.Peek().IsNoteHittable())
 			{
 				NoteObject hitNote = trackedNotes.Dequeue();
 
@@ -219,7 +244,6 @@ namespace SonicBloom.Koreo.Demos
 				// 问题：不知道为什么会记录到其他轨道的note……
 				// 现在采用在使用curHitNote的函数中二次检查来避免出现致命bug
 				this.curHitNote = hitNote;
-
 				hitNote.OnHit();
 				return hitNote;
 			}
@@ -236,8 +260,19 @@ namespace SonicBloom.Koreo.Demos
 
 		public void CheckNoteRelese(NoteObject cur_note)
 		{
+			if (gameController.isAutoMode)
+			{
+				if (cur_note.getNoteType() == "H" 
+						&& cur_note.IsOnHolding
+						&& cur_note.IsNoteReleseable())
+				{
+					cur_note.OnRelese();
+
+				}
+				return;
+			}
 			// 确保判断的是正在长按的note，而不被missed note和其他note影响
-			if(cur_note.getNoteType() == "H" && cur_note.IsOnHolding)
+			if (cur_note.getNoteType() == "H" && cur_note.IsOnHolding)
 			{
 				if (cur_note.IsNoteReleseable())
 				{
@@ -263,7 +298,7 @@ namespace SonicBloom.Koreo.Demos
 			//将note颜色变半透明
 			cur_note.headVisuals.color = expireVisualColor(cur_note.headVisuals.color);
 			cur_note.bodyVisuals.color = expireVisualColor(cur_note.bodyVisuals.color);
-			cur_note.endVisuals.color = expireVisualColor(cur_note.endVisuals.color);
+			cur_note.endVisuals.color = expireVisualColor(cur_note.bodyVisuals.color);
 		}
 		Color expireVisualColor(Color color)
 		{

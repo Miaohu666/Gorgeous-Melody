@@ -7,6 +7,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using SonicBloom.Koreo.Players;
 using UnityEngine.SceneManagement;
+using UnityEngine.Video;
 
 namespace SonicBloom.Koreo.Demos
 {
@@ -18,6 +19,9 @@ namespace SonicBloom.Koreo.Demos
 
 		[Tooltip("标记该播放是否在设置菜单模式下，默认否")]
 		public bool isSettingMode = false;
+
+		[Tooltip("标记该播放是否在自动模式下，默认否")]
+		public bool isAutoMode = false;
 
 		[Tooltip("音乐是否结束，此标记用于场景切换（切换至计分板）")]
 		public bool isEnd = false;
@@ -44,6 +48,9 @@ namespace SonicBloom.Koreo.Demos
 		[Tooltip("生成音符物体的原型件脚本（可以是prefab）")]
 		public NoteObject noteObjectArchetype;
 
+		[Tooltip("收纳所有轨道的父物体")]
+		public GameObject LaneParent;
+
 		[Tooltip("轨道列表（传入脚本引用）")]
 		public List<LaneController> noteLanes = new List<LaneController>();
 
@@ -53,6 +60,12 @@ namespace SonicBloom.Koreo.Demos
 
 		[Tooltip("音乐源，注意关闭其'Auto Play On Awake'选项")]
 		public AudioSource audioCom;
+
+		[Tooltip("背景图片组件")]
+		public SpriteRenderer bgPic;
+
+		[Tooltip("背景视频组件")]
+		public GameObject bgVideoQuad;
 
 		// The amount of leadInTime left before the audio is audible.
 		// 剩余准备时间
@@ -165,11 +178,25 @@ namespace SonicBloom.Koreo.Demos
 				eventID = onLoadObject.eventID;
 				leadInTime = onLoadObject.leadInTime + 4.0f;
 				musicPlayer.LoadSong(onLoadObject.onLoadKoreo, autoPlay: false);
+
+				// 判断背景播放视频还是图片
+				if (!onLoadObject.is_background_video)
+                {
+					bgPic.sprite = onLoadObject.bgPicSprite;
+					bgVideoQuad.SetActive(false);
+				}
+                else
+                {
+					bgVideoQuad.SetActive(true);
+				}
+
+				// 是否开启自动模式
+				isAutoMode = onLoadObject.is_auto_mode;
+				
 			}
 			
 
 		}
-
 		void Start()
 		{
 
@@ -177,7 +204,7 @@ namespace SonicBloom.Koreo.Demos
 			// 【PS】：持久数据不能在移动平台使用
 			Koreographer.Instance.EventDelayInSeconds = PlayerPrefs.GetInt("DelayInMS", 0) * 0.001f;
 			if(!isSettingMode)
-				noteSpeed = PlayerPrefs.GetFloat("NoteSpeed", 8.0f);
+				noteSpeed = PlayerPrefs.GetFloat("NoteSpeed", 8.0f) * 2f;
 
 			// 初始化准备时间
 			InitializeLeadIn();
@@ -268,7 +295,9 @@ namespace SonicBloom.Koreo.Demos
 			float rate = playingKoreo.GetLatestSampleTime() /
 				(float)(playingKoreo.SourceClip.length * playingKoreo.SampleRate);
 
-			Debug.Log(rate);
+			// 右下角展示当前音乐播放的百分比
+			GamingInfoDisplayUI gUI = GameObject.Find("Canvas").GetComponent<GamingInfoDisplayUI>();
+			gUI.updateGamingRate(rate);
 
 			if (1 - rate <= 0.0001f && !isSettingMode)
 			{
@@ -302,7 +331,7 @@ namespace SonicBloom.Koreo.Demos
 			else
 			{
 				// 实例化note对象
-				retObj = GameObject.Instantiate<NoteObject>(noteObjectArchetype);
+				retObj = GameObject.Instantiate<NoteObject>(noteObjectArchetype, LaneParent.transform);
 			}
 
 			// 将生成的note的状态设置为激活
@@ -330,6 +359,15 @@ namespace SonicBloom.Koreo.Demos
 			// 重置音频
 			audioCom.Stop();
 			audioCom.time = 0f;
+
+            // 重置视频
+            if (bgVideoQuad.activeSelf)
+            {
+				bgVideoQuad.GetComponent<VideoPlayer>().Stop();
+				bgVideoQuad.GetComponent<VideoPlayer>().time = 0f;
+
+
+			}
 			
 
 			// 重置所有还在延时状态的事件  

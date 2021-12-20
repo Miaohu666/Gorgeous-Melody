@@ -110,25 +110,33 @@ public class SelectMusic : MonoBehaviour
                     judge.isReady();
 
 
-                    foreach (FileInfo f in new DirectoryInfo(temp).GetFiles("*.jpg"))
+                    foreach (FileInfo f in new DirectoryInfo(temp).GetFiles())
                     {
-                        Texture2D img = null;
-                        WWW www = new WWW("file://" + f.FullName);
+                        // wht：过滤jpg和png图片
+                        if(f.Name.EndsWith(".jpg") || f.Name.EndsWith(".png"))
+                        {
+                            Texture2D img = null;
+                            WWW www = new WWW("file://" + f.FullName);
 
-                        print("file://" + f.FullName);
+                            print("file://" + f.FullName);
 
-                        img = www.texture;
-                        Sprite sprite = Sprite.Create(img, new Rect(0, 0, img.width, img.height), new Vector2(0.5f, 0.5f));
-                        judge.image.sprite = sprite;
+                            img = www.texture;
+                            Sprite sprite = Sprite.Create(img, new Rect(0, 0, img.width, img.height), new Vector2(0.5f, 0.5f));
+                            judge.image.sprite = sprite;
+
+                        }
 
                     }
 
-                    StartCoroutine(GetAudioClip("file://" + temp + "/audio.mp3"));//播放选中的音乐
-
                     selectBeatmap beatmapselector = beatmapSelector.GetComponent<selectBeatmap>();
                     beatmapselector.clearAllButton();//清空原有的按钮
-                    beatmapselector.selectBeatMap(temp);//读取玩家所选择的音乐下的所有谱面文件
+                    
+                    string audio_filename =  beatmapselector.selectBeatMap(temp);//读取玩家所选择的音乐下的所有谱面文件
+                    
                     judge.audioIF.text = btn.getFileName();
+
+                    Debug.Log("AudioFileName: " + audio_filename);
+                    StartCoroutine(GetAudioClip("file://" + temp + "/" + audio_filename));//播放选中的音乐
                 }
             );
         }

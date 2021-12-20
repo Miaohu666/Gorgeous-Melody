@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using SonicBloom.Koreo.Demos;
 
 public class ScoreBoardController : MonoBehaviour
 {
@@ -20,7 +21,9 @@ public class ScoreBoardController : MonoBehaviour
 
     public void backClicked()
     {
+        Destroy(FindObjectOfType<LoadKoreoInfo>().gameObject);
         SceneManager.LoadScene("LoadMusicFromPlayerScene");
+
     }
 
     public void restartClicked()
@@ -57,13 +60,13 @@ public class ScoreBoardController : MonoBehaviour
     {
         int[] judges = { Score.Instance._1stJudge, Score.Instance._2ndJudge, Score.Instance._3rdJudge
                         ,Score.Instance._4thJudge, Score.Instance.missedJudge};
-        double[] standers = { 0.9f, 0.8f, 0.7f, 0.5f };
+        double[] standers = { 0.9f, 0.75f, 0.65f, 0.45f };
         int all_notes = 0;
         foreach(int i in judges){
             all_notes += i;
         }
 
-        double accu = (judges[0] * 1 + judges[1] * 0.7 + judges[2] * 0.3 + judges[3] * 0.5) / all_notes;
+        double accu = (judges[0] * 1 + judges[1] * 0.7 + judges[2] * 0.5 + judges[3] * 0.3) / all_notes;
         bool allcombo_flag = (all_notes == Score.Instance.maxCombo);
 
         if (allcombo_flag)

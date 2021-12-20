@@ -8,10 +8,14 @@ public class GamingInfoDisplayUI : MonoBehaviour
 {
     #region Fields
     public TMP_Text judgeTextUI;
+    
+    private CanvasGroup judgeTextCG;
     public TMP_Text comboTextUI;
     public TMP_Text comboValueUI;
     public TMP_Text scoreTextUI;
     public TMP_Text scoreValueUI;
+    public TMP_Text gamingRateUI;
+    private Color judge_default_color;
 
     #endregion
 
@@ -19,8 +23,38 @@ public class GamingInfoDisplayUI : MonoBehaviour
 
     public void showJudgeUI(string judgement)
     {
-        // TODO:显示一个判定结果，并在固定时间后消失 或在下一个判定结果到来时被覆盖
+        StopCoroutine(judgeUIAutoFade());
+        if (judgeTextCG.alpha <= 0.0f)
+        {
+            judgeTextCG.alpha = 1.0f;
+
+        }
+
         judgeTextUI.text = judgement;
+
+        if (judgement == "Miss")
+        {
+            judgeTextUI.color = Color.red;
+        }
+        else
+        {
+            judgeTextUI.color = judge_default_color;
+        }
+        judgeTextUI.gameObject.GetComponent<UITextAnimation>().StartAnimScale();
+
+        if (judgeTextCG.alpha >= 1.0f)
+        {
+            StartCoroutine(judgeUIAutoFade());
+        }
+    }
+
+    IEnumerator judgeUIAutoFade()
+    {
+        yield return new WaitForSeconds(1.0f);
+        if (judgeTextCG.alpha >= 1.0f)
+        {
+            judgeTextCG.alpha = 0.0f;
+        }
     }
 
     public void showComboUI()
@@ -60,6 +94,8 @@ public class GamingInfoDisplayUI : MonoBehaviour
     {
         int combo = int.Parse(comboValueUI.text);
         comboValueUI.text = "" + (combo + 1);
+        comboValueUI.gameObject.GetComponent<UITextAnimation>().StartAnimScale();
+
     }
     public void setComboValue(int combo)
     {
@@ -67,12 +103,17 @@ public class GamingInfoDisplayUI : MonoBehaviour
     }
     public void resetCombo()
     {
+        // comboValueUI.gameObject.GetComponent<UITextAnimation>().StopAnimPlay();
         comboValueUI.text = "";
+
     }
+
 
     void Start()
     {
-
+        judge_default_color = judgeTextUI.color;
+        scoreValueUI.gameObject.GetComponent<UITextAnimation>().StartAnimWave();
+        judgeTextCG = judgeTextUI.GetComponent<CanvasGroup>();
     }
 
     // Update is called once per frame
@@ -84,6 +125,12 @@ public class GamingInfoDisplayUI : MonoBehaviour
     internal static void restart()
     {
         throw new NotImplementedException();
+    }
+
+    internal void updateGamingRate(float rate)
+    {
+        // 输出百分比形式
+        gamingRateUI.text = rate.ToString("p");
     }
     #endregion
 }
