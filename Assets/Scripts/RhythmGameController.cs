@@ -295,9 +295,13 @@ namespace SonicBloom.Koreo.Demos
 			float rate = playingKoreo.GetLatestSampleTime() /
 				(float)(playingKoreo.SourceClip.length * playingKoreo.SampleRate);
 
-			// 右下角展示当前音乐播放的百分比
-			GamingInfoDisplayUI gUI = GameObject.Find("Canvas").GetComponent<GamingInfoDisplayUI>();
-			gUI.updateGamingRate(rate);
+            if (!isSettingMode)
+            {
+				// 右下角展示当前音乐播放的百分比
+				GamingInfoDisplayUI gUI = GameObject.Find("Canvas").GetComponent<GamingInfoDisplayUI>();
+				gUI.updateGamingRate(rate);
+
+			}
 
 			if (1 - rate <= 0.0001f && !isSettingMode)
 			{

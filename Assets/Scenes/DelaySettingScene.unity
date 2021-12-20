@@ -461,8 +461,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190157
+  m_fontColor: {r: 0.3018868, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -697,8 +697,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278200718
+  m_fontColor: {r: 0.5568628, g: 0.16078432, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -945,8 +945,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4291688187
-  m_fontColor: {r: 0.9843138, g: 0.96470594, b: 0.80392164, a: 1}
+    rgba: 4278226417
+  m_fontColor: {r: 0.94509804, g: 0.5517474, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1512,8 +1512,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278217471
+  m_fontColor: {r: 1, g: 0.41589856, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1807,6 +1807,7 @@ MonoBehaviour:
   comboValueUI: {fileID: 0}
   scoreTextUI: {fileID: 0}
   scoreValueUI: {fileID: 0}
+  gamingRateUI: {fileID: 0}
 --- !u!1 &1477347056
 GameObject:
   m_ObjectHideFlags: 0
@@ -1976,8 +1977,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278200718
+  m_fontColor: {r: 0.5566038, g: 0.16038068, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2302,6 +2303,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSettingMode: 1
+  isAutoMode: 0
   isEnd: 0
   eventID: audio
   hitWindowRangeInMS: 120
@@ -2315,6 +2317,8 @@ MonoBehaviour:
   - {fileID: 1477347057}
   leadInTime: 1
   audioCom: {fileID: 1745786230}
+  bgPic: {fileID: 0}
+  bgVideoQuad: {fileID: 0}
 --- !u!4 &1700770190
 Transform:
   m_ObjectHideFlags: 0
