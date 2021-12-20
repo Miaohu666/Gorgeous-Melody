@@ -5,7 +5,8 @@ using UnityEngine;
 public class newparticle : MonoBehaviour
 {
     private ParticleSystem ps;
-    public float playTime = 3f;
+    // 用于表示当前对象是否可以销毁，若不能销毁，则采用停用的方式来进行隐藏
+    public bool OnlyDeactivate;
 
     void playParticle()
     {
@@ -15,8 +16,14 @@ public class newparticle : MonoBehaviour
     // 在音符的位置上，播放当前的粒子特效
     void playParticlewithPos(Vector3 pos)
     {
-        ps.transform.position = pos;
-        ps.Play();
+        // 拷贝原本的特效对象
+        ParticleSystem psNew = GameObject.Instantiate<ParticleSystem>(ps);
+        psNew.transform.position = pos;
+        psNew.Play();
+
+        // 在延迟到粒子特效播放结束后，销毁粒子特效
+        // CheckIfAlive(psNew);
+        // Destroy(psNew, psNew.main.duration * 3);
     }
     void stopParticle()
     {
@@ -27,17 +34,30 @@ public class newparticle : MonoBehaviour
     void Start()
     {
         ps = this.GetComponent<ParticleSystem>();
-        // ps.Play();
     }
 
     // Update is called once per frame
     void Update()
     {
-        playTime -= Time.deltaTime;
-        if(playTime < 0)
+
+    }
+
+    // 对当前粒子是否存活进行检查
+    IEnumerator CheckIfAlive(ParticleSystem ps)
+    {
+        while (true && ps != null)
         {
-            // ps.Play();
-            playTime = 3f;
+            yield return new WaitForSeconds(0.1f);
+            if (!ps.IsAlive(true))
+            {
+                if (OnlyDeactivate)
+                {
+                    this.gameObject.SetActive(false);
+                }
+                else
+                    GameObject.Destroy(ps.gameObject);
+                break;
+            }
         }
     }
 }

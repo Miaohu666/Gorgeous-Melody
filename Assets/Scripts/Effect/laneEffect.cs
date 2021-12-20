@@ -5,7 +5,7 @@ using UnityEngine;
 public class laneEffect : MonoBehaviour
 {
     private ParticleSystem ps;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +21,10 @@ public class laneEffect : MonoBehaviour
         psNew.Play();
         /*ps.transform.position = pos;
         ps.Play();*/
+        // Destroy(psNew, psNew.main.duration * 2);
+
+        // 在延迟到粒子特效播放结束后，销毁粒子特效
+        // CheckIfAlive(psNew);
     }
     // Update is called once per frame
     void Update()

@@ -1594,7 +1594,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9449fd04547627345af3083c01aad361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playTime: 0
+  OnlyDeactivate: 0
 --- !u!114 &884840495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2317,6 +2317,10 @@ PrefabInstance:
     - target: {fileID: 1488751325883584737, guid: be027ac98ba653f46ba292d0fe164166, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1488751325897741729, guid: be027ac98ba653f46ba292d0fe164166, type: 3}
+      propertyPath: stopAction
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be027ac98ba653f46ba292d0fe164166, type: 3}
@@ -3136,6 +3140,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hit3
       objectReference: {fileID: 0}
+    - target: {fileID: 2109354006003381356, guid: ad4c3c83401ee5142890de7b8b8fae23, type: 3}
+      propertyPath: stopAction
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad4c3c83401ee5142890de7b8b8fae23, type: 3}
 --- !u!4 &1687356726 stripped
@@ -3571,6 +3579,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 884840492}
     m_Modifications:
+    - target: {fileID: 5519121765461864154, guid: 375b06dfb4d36de4d8a6b0ec021c37a4, type: 3}
+      propertyPath: stopAction
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5519121765476019102, guid: 375b06dfb4d36de4d8a6b0ec021c37a4, type: 3}
       propertyPath: m_RootOrder
       value: 0
