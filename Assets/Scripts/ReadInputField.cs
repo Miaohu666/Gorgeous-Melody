@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using System.IO;
 using System;
 using UnityEngine.SceneManagement;
+using SonicBloom.Koreo.Demos;
 
 /* ReadInputField�� ���ı����������ȡ�ַ�����Ȼ�󴫵ݸ�ת���ű�
  * �㼶��UI
@@ -24,11 +25,13 @@ public class ReadInputField : MonoBehaviour
     public Slider slider;
     public TMP_Text readoutSpeedValue;
     public Button startButton;
+    public Toggle bgVideoToggle;
 
     public List<string> nameOfbeatmap;
     public List<string> nameOfmusic;
 
     public GameObject musicMannager;
+    public LoadKoreoInfo koreoLoadManager;
 
     public AudioSource BGM;
 
@@ -130,11 +133,15 @@ public class ReadInputField : MonoBehaviour
 
     public void onStart(string scene)
     {
-        SceneManager.LoadScene(scene);
+        koreoLoadManager.bgPicSprite = image.sprite;
+
+        koreoLoadManager.is_background_video = bgVideoToggle.isOn;
 
         ConvetBeatmapOSUMania conveter = gameObject.GetComponent<ConvetBeatmapOSUMania>();
         conveter.StartConvet();
 
         BGM.Stop();
+
+        SceneManager.LoadScene(scene);
     }
 }

@@ -19,6 +19,9 @@ namespace SonicBloom.Koreo.Demos
 		[Tooltip("标记该播放是否在设置菜单模式下，默认否")]
 		public bool isSettingMode = false;
 
+		[Tooltip("标记该播放是否在自动模式下，默认否")]
+		public bool isAutoMode = false;
+
 		[Tooltip("音乐是否结束，此标记用于场景切换（切换至计分板）")]
 		public bool isEnd = false;
 
@@ -56,6 +59,12 @@ namespace SonicBloom.Koreo.Demos
 
 		[Tooltip("音乐源，注意关闭其'Auto Play On Awake'选项")]
 		public AudioSource audioCom;
+
+		[Tooltip("背景图片组件")]
+		public SpriteRenderer bgPic;
+
+		[Tooltip("背景视频组件")]
+		public GameObject bgVideoQuad;
 
 		// The amount of leadInTime left before the audio is audible.
 		// 剩余准备时间
@@ -168,6 +177,18 @@ namespace SonicBloom.Koreo.Demos
 				eventID = onLoadObject.eventID;
 				leadInTime = onLoadObject.leadInTime + 4.0f;
 				musicPlayer.LoadSong(onLoadObject.onLoadKoreo, autoPlay: false);
+
+				// 判断背景播放视频还是图片
+				if (!onLoadObject.is_background_video)
+                {
+					bgPic.sprite = onLoadObject.bgPicSprite;
+					bgVideoQuad.SetActive(false);
+				}
+                else
+                {
+					bgVideoQuad.SetActive(true);
+				}
+				
 			}
 			
 

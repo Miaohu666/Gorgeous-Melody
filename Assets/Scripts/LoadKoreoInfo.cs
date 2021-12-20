@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using Assets.Scripts;
+using UnityEngine.UI;
 
 /* LoadKoreoInfo�� ��ת���ű��л��Koreo����Դ���ã����ڿ糡������
  * �㼶��TS
@@ -19,7 +20,11 @@ namespace SonicBloom.Koreo.Demos
 
         public TMP_Text beatmapNameUI;
 
-        public GameObject beatmapMannager;
+        public GameObject beatmapManager;
+
+        public bool is_background_video;
+        public Sprite bgPicSprite;
+
 
         // Start is called before the first frame update
         void Start()
@@ -33,16 +38,18 @@ namespace SonicBloom.Koreo.Demos
 
         }
 
-        // ��ʱʹ��(���س���)
+        // Obsoleted
         public void StartPlayingScene(string scene)
         {
-            SceneManager.LoadScene(scene);
 
-            ConvetBeatmapOSUMania conveter = gameObject.GetComponent<ConvetBeatmapOSUMania>();
+            /* ConvetBeatmapOSUMania conveter = gameObject.GetComponent<ConvetBeatmapOSUMania>();
             conveter.StartConvet();
 
-            ReadInputField judge = beatmapMannager.GetComponent<ReadInputField>();//��ͣ�������ֲ���
+            ReadInputField judge = beatmapManager.GetComponent<ReadInputField>();//��ͣ�������ֲ���
             judge.BGM.Stop();
+
+            SceneManager.LoadScene(scene);*/
+
         }
         // ��ʱʹ��(�˳���Ϸ)
         public void Quit()

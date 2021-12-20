@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using SonicBloom.Koreo.Demos;
 
 public class ScoreBoardController : MonoBehaviour
 {
@@ -20,7 +21,9 @@ public class ScoreBoardController : MonoBehaviour
 
     public void backClicked()
     {
+        Destroy(FindObjectOfType<LoadKoreoInfo>().gameObject);
         SceneManager.LoadScene("LoadMusicFromPlayerScene");
+
     }
 
     public void restartClicked()

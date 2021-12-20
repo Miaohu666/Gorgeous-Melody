@@ -8,6 +8,7 @@ public class GamingInfoDisplayUI : MonoBehaviour
 {
     #region Fields
     public TMP_Text judgeTextUI;
+    
     private CanvasGroup judgeTextCG;
     public TMP_Text comboTextUI;
     public TMP_Text comboValueUI;
